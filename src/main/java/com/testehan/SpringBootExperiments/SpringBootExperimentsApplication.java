@@ -1,7 +1,9 @@
 package com.testehan.SpringBootExperiments;
 
+import com.testehan.SpringBootExperiments.alien.Alien;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 
 // you can run this to start the app. Or you can go to the Terminal tab and run
@@ -14,7 +16,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringBootExperimentsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootExperimentsApplication.class, args);
+
+		ConfigurableApplicationContext context = SpringApplication.run(SpringBootExperimentsApplication.class, args);
+
+		Alien a1 = context.getBean(Alien.class);
+		a1.setName("Thanos");
+		a1.show();
+
+		Alien a2 = context.getBean(Alien.class);
+		a2.setName("Rocket racoon");
+		a2.show();
+		a1.show();
 	}
 
 
