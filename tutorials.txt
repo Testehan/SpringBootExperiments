@@ -1,0 +1,7 @@
+If you go inside the application.properties file, you can see which DB is configured, either H2 in memory, or PostgreSQL
+If H2 then after starting the app, you can navigate to the app web console, to connect to the DB, view tables etc:
+    http://localhost:8080/h2-console/
+
+If you want to use the app, you can check the Controller class to see what paths are available and what operations..
+    StudentController
+
