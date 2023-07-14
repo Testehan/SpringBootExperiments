@@ -1,6 +1,7 @@
 package com.testehan.SpringBootExperiments;
 
 import com.testehan.SpringBootExperiments.alien.Alien;
+import com.testehan.SpringBootExperiments.docs.lookup.SchoolService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -27,6 +28,17 @@ public class SpringBootExperimentsApplication {
 		a2.setName("Rocket racoon");
 		a2.show();
 		a1.show();
+
+
+
+
+		SchoolService first = context.getBean(SchoolService.class);
+		SchoolService second = context.getBean(SchoolService.class);
+
+		System.out.println(first.hashCode() + " == " + second.hashCode());
+		// Using @Lookup, we can get an instance of SchoolNotification through our singleton bean, every time
+		// getNotification() method is called..
+		System.out.println(first.getNotification().hashCode() + " != " + second.getNotification().hashCode());
 	}
 
 
