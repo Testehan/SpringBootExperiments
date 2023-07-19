@@ -1050,49 +1050,169 @@ of Spring’s Aspect-Oriented Programming (AOP) technologies
         The FactoryBean concept and interface are used in a number of places within the Spring
         Framework. More than 50 implementations of the FactoryBean interface ship with Spring itself.
 
-    2.1.9. Annotation-based Container Configuration     TODO Continue from here
+    2.1.9. Annotation-based Container Configuration
+        Are annotations better than XML for configuring Spring?
+        The introduction of annotation-based configuration raised the question of whether this
+        approach is “better” than XML. The short answer is “it depends.” The long answer is that each
+        approach has its pros and cons, and, usually, it is up to the developer to decide which strategy
+        suits them better. Due to the way they are defined, annotations provide a lot of context in
+        their declaration, leading to shorter and more concise configuration. However, XML excels at
+        wiring up components without touching their source code or recompiling them. Some
+        developers prefer having the wiring close to the source while others argue that annotated
+        classes are no longer POJOs and, furthermore, that the configuration becomes decentralized
+        and harder to control.
+        No matter the choice, Spring can accommodate both styles and even mix them together. I
 
+        An alternative to XML setup is provided by annotation-based configuration, which relies on the
+        bytecode metadata for wiring up components instead of angle-bracket declarations. Instead of
+        using XML to describe a bean wiring, the developer moves the configuration into the component
+        class itself by using annotations on the relevant class, method, or field declaration. As mentioned in
+        Example: The AutowiredAnnotationBeanPostProcessor, using a BeanPostProcessor in conjunction with
+        annotations is a common means of extending the Spring IoC container. For example, Spring 2.5
+        introduced an annotation-based approach to drive Spring’s dependency injection. Essentially, the
+        @Autowired annotation provides the same capabilities as described in Autowiring Collaborators but
+        with more fine-grained control and wider applicability. Spring 2.5 also added support for JSR-250
+        annotations, such as @PostConstruct and @PreDestroy. Spring 3.0 added support for JSR-330
+        (Dependency Injection for Java) annotations contained in the jakarta.inject package such as
+        @Inject and @Named. Details about those annotations can be found in the relevant section.
 
+!!!!!   Annotation injection is performed before XML injection. Thus, the XML
+        configuration overrides the annotations for properties wired through both
+        approaches.
 
+        The <context:annotation-config/> element (defined in XML config) implicitly registers the following
+        post-processors:
+            • ConfigurationClassPostProcessor
+            • AutowiredAnnotationBeanPostProcessor
+            • CommonAnnotationBeanPostProcessor
+            • PersistenceAnnotationBeanPostProcessor
+            • EventListenerMethodProcessor
 
+        Using @Autowired
+        JSR 330’s @Inject annotation can be used in place of Spring’s @Autowired annotation
+        in the examples included in this section. See here for more details.
 
+            public class MovieRecommender {
+              private final CustomerPreferenceDao customerPreferenceDao;
 
+              @Autowired
+              public MovieRecommender(CustomerPreferenceDao customerPreferenceDao) {
+                this.customerPreferenceDao = customerPreferenceDao;
+              }
+              // ...
+            }
 
+        As of Spring Framework 4.3, an @Autowired annotation on such a constructor is no
+        longer necessary if the target bean defines only one constructor to begin with.
+        However, if several constructors are available and there is no primary/default
+        constructor, at least one of the constructors must be annotated with @Autowired in
+        order to instruct the container which one to use. See the discussion on constructor
+        resolution for details.
 
+!!!     You can also apply the @Autowired annotation to traditional setter methods
+!!!     You can apply @Autowired to fields as well and even mix it with constructors
+!!!     You can also apply the annotation to methods with arbitrary names and multiple arguments, as the
+        following example shows:
+            public class MovieRecommender {
+              private MovieCatalog movieCatalog;
+              private CustomerPreferenceDao customerPreferenceDao;
 
+              @Autowired
+              public void prepare(MovieCatalog movieCatalog,
+                CustomerPreferenceDao customerPreferenceDao) {
+                    this.movieCatalog = movieCatalog;
+                    this.customerPreferenceDao = customerPreferenceDao;
+              }
+              // ...
+            }
 
+        Make sure that your target components (for example, MovieCatalog, CustomerPreferenceDao) are consistently
+        declared by the type that you use for your @Autowired-annotated injection points. Otherwise, injection may
+        fail due to a "no type match found" error at runtime.
 
+        For XML-defined beans or component classes found via classpath scanning, the
+        container usually knows the concrete type up front. However, for @Bean factory
+        methods, you need to make sure that the declared return type is sufficiently
+        expressive. For components that implement several interfaces or for components
+        potentially referred to by their implementation type, consider declaring the most
+        specific return type on your factory method (at least as specific as required by the
+        injection points referring to your bean).
 
+        Your target beans can implement the org.springframework.core.Ordered interface
+        or use the @Order or standard @Priority annotation if you want items in the array
+        or list to be sorted in a specific order. Otherwise, their order follows the
+        registration order of the corresponding target bean definitions in the container.
 
+        @Order values may influence priorities at injection
+        points, but be aware that they do not influence singleton startup order, which is an
+        orthogonal concern determined by dependency relationships and @DependsOn declarations.
 
+!!!     By default, autowiring fails when no matching candidate beans are available for a given injection
+        point. In the case of a declared array, collection, or map, at least one matching element is expected.
 
+        The default behavior is to treat annotated methods and fields as indicating required dependencies.
+        You can change this behavior as demonstrated in the following example, enabling the framework to
+        skip a non-satisfiable injection point through marking it as non-required (i.e., by setting the
+        required attribute in @Autowired to false):
+            public class SimpleMovieLister {
+              private MovieFinder movieFinder;
 
+              @Autowired(required = false)
+              public void setMovieFinder(MovieFinder movieFinder) {
+                this.movieFinder = movieFinder;
+              }
+              // ...
+            }
+!!!     A non-required method will not be called at all if its dependency (or one of its
+        dependencies, in case of multiple arguments) is not available. A non-required field
+        will not get populated at all in such cases, leaving its default value in place.
+        In other words, setting the required attribute to false indicates that the
+        corresponding property is optional for autowiring purposes, and the property will
+        be ignored if it cannot be autowired. This allows properties to be assigned default
+        values that can be optionally overridden via dependency injection
 
+!!!!!   Only one constructor of any given bean class may declare @Autowired with the
+        required attribute set to true, indicating the constructor to autowire when used as
+        a Spring bean. As a consequence, if the required attribute is left at its default value
+        true, only a single constructor may be annotated with @Autowired. If multiple
+        constructors declare the annotation, they will all have to declare required=false in
+        order to be considered as candidates for autowiring (analogous to
+        autowire=constructor in XML). The constructor with the greatest number of
+        dependencies that can be satisfied by matching beans in the Spring container will
+        be chosen. If none of the candidates can be satisfied, then a primary/default
+        constructor (if present) will be used. Similarly, if a class declares multiple
+        constructors but none of them is annotated with @Autowired, then a
+        primary/default constructor (if present) will be used. If a class only declares a
+        single constructor to begin with, it will always be used, even if not annotated. Note
+        that an annotated constructor does not have to be public.
 
+        Alternatively, you can express the non-required nature of a particular dependency through Java 8’s
+        java.util.Optional, as the following example shows:
 
+          @Autowired
+          public void setMovieFinder(Optional<MovieFinder> movieFinder) {
+          ...
+          }
 
+        You can also use @Autowired for interfaces that are well-known resolvable dependencies:
+        BeanFactory, ApplicationContext, Environment, ResourceLoader, ApplicationEventPublisher, and
+        MessageSource. These interfaces and their extended interfaces, such as
+        ConfigurableApplicationContext or ResourcePatternResolver, are automatically resolved, with no
+        special setup necessary
 
+        The @Autowired, @Inject, @Value, and @Resource annotations are handled by Spring
+        BeanPostProcessor implementations. This means that you cannot apply these
+        annotations within your own BeanPostProcessor or BeanFactoryPostProcessor types
+        (if any). These types must be 'wired up' explicitly by using XML or a Spring @Bean method
 
+        Fine-tuning Annotation-based Autowiring with @Primary
+!!!!    Because autowiring by type may lead to multiple candidates, it is often necessary to have more
+        control over the selection process. One way to accomplish this is with Spring’s @Primary annotation.
+        @Primary indicates that a particular bean should be given preference when multiple beans are
+        candidates to be autowired to a single-valued dependency. If exactly one primary bean exists
+        among the candidates, it becomes the autowired value.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+TODO Continua de aici
 
 
 
