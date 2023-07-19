@@ -1,0 +1,129 @@
+https://start.spring.io/
+    good pom generation tool where you specify what dependencies you need, what spring version etc
+
+
+
+
+
+
+
+Videos
+    DONE - What is the Spring framework really all about?
+        https://www.youtube.com/watch?v=gq4S-ovWVlM
+
+    DONE Spring Boot Tutorial | Full Course [2022] [NEW]
+        https://www.youtube.com/watch?v=9SGDpanrc8U
+            https://stackoverflow.com/questions/26387399/javax-transaction-transactional-vs-org-springframework-transaction-annotation-tr
+            use @Transactional from spring when working on a spring App and the one from javax.persistence when working on a java ee app
+
+    DONE Spring Boot - Learn Spring Boot 3 (2 Hours)
+        https://www.youtube.com/watch?v=-mwpoE0x0JQ
+
+    Spring Boot 3 + Spring Security 6 - JWT Authentication and Authorisation [NEW] [2023]
+        https://www.youtube.com/watch?v=KxqlJblhzfI         todo some improvements ..see the SpringBoot3 project and the tutorial file for more info
+
+    Spring Boot Tutorial | How To Handle Exceptions
+        https://www.youtube.com/watch?v=PzK4ZXa2Tbc&list=PLwvrYc43l1MzeA2bBYQhCWr2gvWLs9A7S&index=6
+
+DONE    Spring Boot Tutorial | Spring Data JPA          --> KEEP IN mind that on youtube is just the first hour ...the whole course
+                                                            costs money and is about max 3 4 hours
+        https://www.youtube.com/watch?v=8SGI_XS5OPw&list=PLwvrYc43l1MzeA2bBYQhCWr2gvWLs9A7S&index=2
+
+       Spring Data abstracts all the complexity needed for a developer to interact with a DB.
+       It is an abstraction over JPA and Hibernate, which simplifies DB interaction with a developer.
+
+       When creating entity classes, always use the JPA annotations...not the hibernate ones
+       (need to make sure about this from the official documentation)
+
+       The goad of the Repository classes is to reduce the amount of boilerplate code required for accessing data for
+       various persistance stores.
+
+TODO    Spring Boot, React.js & AWS S3 Full Stack Development
+        https://www.youtube.com/watch?v=9i1gQ7w2V24
+        this video is just a small preview of his course...and in this video, the focus was mostly on the AWS S3 usage/integration
+
+
+    DONE 10 Spring and Spring Boot Common Mistakes You Need To STOP
+        https://www.youtube.com/watch?v=CT8dbbe783s
+
+    DONE Spring Framework Tutorial | Full Course - Telusko
+        https://www.youtube.com/watch?v=If1Lw4pLLEo
+
+    DONE Spring MVC Tutorial | Full Course - Telusko
+        https://www.youtube.com/watch?v=g2b-NbR48Jo
+
+        -unlike the normal Servlet architecture, where in web.xml you specify the request mappings and which servlet will handle them,
+        in spring MVC you can have only 1 servlet configured in web.xml, DispatcherServlet, which acts like a front controller, that
+        dispatches the requests to various classes annotated with @Controller. You only need to specify in which package should Spring
+        search for the Controller classes.
+            (see "Screenshot 2023-05-15 at 10.25.20")
+
+
+    DONE Spring MVC tutorial project for Beginners
+        https://www.youtube.com/watch?v=VqptK6_icjk&list=PL82C6-O4XrHejlASdecIsroNEbZFYo_X1
+
+        https://www.youtube.com/watch?v=hKbgXO0aXpM         // this is a missing video from the playlist from above
+
+            https://stackoverflow.com/questions/41092751/spring-injects-dependencies-in-constructor-without-autowired-annotation
+                Starting with Spring 4.3, if a class, which is configured as a Spring bean, has only one constructor,
+                the @Autowired annotation can be omitted and Spring will use that constructor and inject all necessary
+                dependencies.
+                Regarding the default constructor: You either need the default constructor, a constructor with the @Autowired
+                annotation when you have multiple constructors, or only one constructor in your class with or without the
+                @Autowired annotation.
+
+            https://startbootstrap.com/template/modern-business
+                you can use this website to get html/css/js templates/themes for your webapp
+
+            Thymeleaf Explained
+                Server side templating engine, just like JSP
+
+    DONE Spring Boot Tutorials | Full Course - Telusko
+        https://www.youtube.com/watch?v=35EQXmHKZYs
+
+        IN spring boot, when you build you app, you get a jar, that has inside an embedded server..this means
+        that once you have that jar, and a jvm you can run your app, without needing another webserver or application
+        server.
+            "For servlet stack applications, the spring-boot-starter-web includes Tomcat by including
+            spring-boot-starter-tomcat , but you can use spring-boot-starter-jetty or spring-boot-starter-undertow instead"
+
+        spring can work with jsp pages or thymeleaf template files..maybe others too
+
+        methods from the @Controller that handle the http requests can have the HttpServletRequest and/or
+        HttpServletResponse parameter, just like in the case of servlets, and one can extract data from them etc
+        Or you can use HttpSession in those method signatures, and will be getting, via injection, an instance of the
+        HttpSession
+
+        for rapid prototyping one can use H2 in memory database : https://www.h2database.com/html/main.html
+        it has in browser console from which you can view data etc
+            https://www.baeldung.com/spring-boot-h2-database        (this is configured in application.properties..depeding
+            on what is and is not commented there, it should work...also check tutorials.txt file)
+
+        the REST part of spring boot works by default with JSON...if you want xml to be supported, you will need to just
+        add a jackson xml dependency, and obvious if the client requests an xml response, he will get one automatically
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+TODO    https://spring.academy/courses
+            This is a very good source with free and paid courses on Spring...check it out
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+TODO    https://spring.io/guides
+        i mean there are a lot of guides here...some of them are small...others are 2-3 hour tutorials...
+
+TODO    Spring Boot Quick Start
+        https://www.youtube.com/watch?v=msXL2oDexqw&list=PLqq-6Pq4lTTbx8p2oCgcAQGQyqN8XeA1x
+
+TODO    Spring Security | FULL COURSE
+        https://www.youtube.com/watch?v=her_7pa0vrg
+
+TODO    Spring security basics
+        https://www.youtube.com/watch?v=sm-8qfMWEV8&list=PLqq-6Pq4lTTYTEooakHchTGglSvkZAjnE
+
+TODO    Spring boot microservices Level 1 : Communication and discovery
+        https://www.youtube.com/watch?v=y8IQb4ofjDo&list=PLqq-6Pq4lTTZSKAFG6aCDVDP86Qx4lNas
+
+TODO    Spring boot microservices Level 2 : Fault tolerance and resilience
+        https://www.youtube.com/watch?v=o8RO38KbWvA&list=PLqq-6Pq4lTTbXZY_elyGv7IkKrfkSrX5e
+
+TODO    Spring boot microservices Level 3 : microservice configuration
+        https://www.youtube.com/watch?v=upoIwn4rWCo&list=PLqq-6Pq4lTTaoaVoQVfRJPqvNTCjcTvJB
