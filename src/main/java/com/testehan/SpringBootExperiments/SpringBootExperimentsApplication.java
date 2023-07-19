@@ -1,6 +1,7 @@
 package com.testehan.SpringBootExperiments;
 
 import com.testehan.SpringBootExperiments.alien.Alien;
+import com.testehan.SpringBootExperiments.alien.SpaceShip;
 import com.testehan.SpringBootExperiments.docs.lookup.SchoolService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,6 +30,8 @@ public class SpringBootExperimentsApplication {
 		a2.show();
 		a1.show();
 
+		SpaceShip ship = context.getBean(SpaceShip.class);
+		System.out.println("This alien is in a space ship : " + ship.getAliens()[0]);
 
 
 
