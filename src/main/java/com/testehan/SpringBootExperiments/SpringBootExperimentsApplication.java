@@ -42,6 +42,8 @@ public class SpringBootExperimentsApplication {
 		// Using @Lookup, we can get an instance of SchoolNotification through our singleton bean, every time
 		// getNotification() method is called..
 		System.out.println(first.getNotification().hashCode() + " != " + second.getNotification().hashCode());
+
+		System.out.println(first.getNotification().getSchoolName());
 	}
 
 
