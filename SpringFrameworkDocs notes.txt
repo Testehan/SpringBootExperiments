@@ -1212,7 +1212,308 @@ of Spring’s Aspect-Oriented Programming (AOP) technologies
         candidates to be autowired to a single-valued dependency. If exactly one primary bean exists
         among the candidates, it becomes the autowired value.
 
-TODO Continua de aici
+        Fine-tuning Annotation-based Autowiring with Qualifiers
+!!!     @Primary is an effective way to use autowiring by type with several instances when one primary
+        candidate can be determined. When you need more control over the selection process, you can use
+        Spring’s @Qualifier annotation. You can associate qualifier values with specific arguments,
+        narrowing the set of type matches so that a specific bean is chosen for each argument.
+
+        @Autowired is fundamentally about type-driven injection with optional semantic qualifiers. This
+        means that qualifier values, even with the bean name fallback, always have narrowing semantics
+        within the set of type matches. They do not semantically express a reference to a unique bean id.
+        Good qualifier values are main or EMEA or persistent, expressing characteristics of a specific
+        component
+
+        Qualifiers also apply to typed collections, as discussed earlier — for example, to Set<MovieCatalog>.
+        In this case, all matching beans, according to the declared qualifiers, are injected as a collection.
+        This implies that qualifiers do not have to be unique. Rather, they constitute filtering criteria. For
+        example, you can define multiple MovieCatalog beans with the same qualifier value “action”, all of
+        which are injected into a Set<MovieCatalog> annotated with @Qualifier("action").
+
+!!!!    If there is no other resolution indicator (such as a qualifier or a primary marker), for a
+        non-unique dependency situation, Spring matches the injection point name (that
+        is, the field name or parameter name) against the target bean names and chooses
+        the same-named candidate, if any.
+            Dan : bean name means if you use XML for defining beans something like the "name" attribute from below:
+                <bean name="anotherExample" class="examples.ExampleBeanTwo"/>
+
+        That said, if you intend to express annotation-driven injection by name, do not primarily use
+        @Autowired, even if it is capable of selecting by bean name among type-matching candidates.
+        Instead, use the JSR-250 @Resource annotation, which is semantically defined to identify a specific
+        target component by its unique name, with the declared type being irrelevant for the matching
+        process. @Autowired has rather different semantics: After selecting candidate beans by type, the
+        specified String qualifier value is considered within those type-selected candidates only
+
+!!!     @Autowired applies to fields, constructors, and multi-argument methods, allowing for narrowing
+        through qualifier annotations at the parameter level. In contrast, @Resource is supported only for
+        fields and bean property setter methods with a single argument. As a consequence, you should stick
+        with qualifiers if your injection target is a constructor or a multi-argument method.
+
+        You can create your own custom qualifier annotations. To do so, define an annotation and provide
+        the @Qualifier annotation within your definition, as the following example shows
+            Dan: see Genre interface in this project
+
+        In some cases, using an annotation without a value may suffice. This can be useful when the
+        annotation serves a more generic purpose and can be applied across several different types of
+        dependencies.
+
+        Using Generics as Autowiring Qualifiers
+        In addition to the @Qualifier annotation, you can use Java generic types as an implicit form of qualification.
+
+        Dan: Adding this for more context, in order for you to understand later one...Lets assume that you have 2 beans
+        StringStore and IntegerStore that you want to inject.Next...from the documentation:
+        Assuming that the preceding beans implement a generic interface, (that is, Store<String> and
+        Store<Integer>), you can @Autowire the Store interface and the generic is used as a qualifier, as the
+        following example shows:
+
+            @Autowired
+            private Store<String> s1; // <String> qualifier, injects the stringStore bean
+            @Autowired
+            private Store<Integer> s2; // <Integer> qualifier, injects the integerStore bean
+
+        Generic qualifiers also apply when autowiring lists, Map instances and arrays:
+            // Inject all Store beans as long as they have an <Integer> generic
+            // Store<String> beans will not appear in this list
+            @Autowired
+            private List<Store<Integer>> s;
+
+        Injection with @Resource
+        Spring also supports injection by using the JSR-250 @Resource annotation
+        (jakarta.annotation.Resource) on fields or bean property setter methods. This is a common pattern
+        in Jakarta EE: for example, in JSF-managed beans and JAX-WS endpoints. Spring supports this
+        pattern for Spring-managed objects as well.
+        @Resource takes a name attribute.
+
+!!!!    By default, Spring interprets that value as the bean name to be injected. In other words, it follows
+        by-name semantics
+        If no name is explicitly specified, the default name is derived from the field name or setter method.
+        In case of a field, it takes the field name. In case of a setter method, it takes the bean property name.
+
+!!      In the exclusive case of @Resource usage with no explicit name specified, and similar to @Autowired,
+        @Resource finds a primary type match instead of a specific named bean and resolves well known
+        resolvable dependencies
+
+        Thus, in the following example, the customerPreferenceDao field first looks for a bean named
+        "customerPreferenceDao" and then falls back to a primary type match for the type
+        CustomerPreferenceDao:
+
+             @Resource
+             private CustomerPreferenceDao customerPreferenceDao;
+             @Resource
+             private ApplicationContext context;
+
+!!!     The context field is injected based on the known resolvable dependency type: ApplicationContext.
+
+        Using @Value
+        @Value is typically used to inject externalized properties
+
+            @Configuration
+            @PropertySource("classpath:application.properties")
+            public class AppConfig { }
+
+            @Value("${catalog.name}") String catalog
+                Dan: this will look into the application.properties file for a key catalog.name and inject the string value
+                    of that key
+
+        If you want to maintain strict control over nonexistent values, you should declare a
+        PropertySourcesPlaceholderConfigurer bean, as the following example shows:
+            @Configuration
+            public class AppConfig {
+              @Bean
+              public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer()
+            {
+              return new PropertySourcesPlaceholderConfigurer();
+              }
+            }
+        Using the above configuration ensures Spring initialization failure if any ${} placeholder could not
+        be resolved
+
+!!!!    Spring Boot configures by default a PropertySourcesPlaceholderConfigurer bean
+        that will get properties from application.properties and application.yml files.
+
+        Built-in converter support provided by Spring allows simple type conversion (to Integer or int for
+        example) to be automatically handled. Multiple comma-separated values can be automatically
+        converted to String array without extra effort.
+
+        Using @PostConstruct and @PreDestroy
+        The CommonAnnotationBeanPostProcessor not only recognizes the @Resource annotation but also the
+        JSR-250 lifecycle annotations: jakarta.annotation.PostConstruct and jakarta.annotation.PreDestroy.
+        Introduced in Spring 2.5, the support for these annotations offers an alternative to the lifecycle
+        callback mechanism described in initialization callbacks and destruction callbacks. Provided that
+        the CommonAnnotationBeanPostProcessor is registered within the Spring ApplicationContext, a method
+        carrying one of these annotations is invoked at the same point in the lifecycle as the corresponding
+        Spring lifecycle interface method or explicitly declared callback method.
+
+              @PostConstruct
+              public void populateMovieCache() {
+                // populates the movie cache upon initialization...
+              }
+              @PreDestroy
+              public void clearMovieCache() {
+                // clears the movie cache upon destruction...
+              }
+
+    2.1.10. Classpath Scanning and Managed Components
+        Most examples in this chapter use XML to specify the configuration metadata that produces each
+        BeanDefinition within the Spring container. The previous section (Annotation-based Container
+        Configuration) demonstrates how to provide a lot of the configuration metadata through sourcelevel annotations.
+        Even in those examples, however, the “base” bean definitions are explicitly
+        defined in the XML file, while the annotations drive only the dependency injection. This section
+        describes an option for implicitly detecting the candidate components by scanning the classpath.
+        Candidate components are classes that match against a filter criteria and have a corresponding
+        bean definition registered with the container. This removes the need to use XML to perform bean
+        registration. Instead, you can use annotations (for example, @Component), AspectJ type expressions,
+        or your own custom filter criteria to select which classes have bean definitions registered with the
+        container
+
+        @Component and Further Stereotype Annotations
+!!!!    The @Repository annotation is a marker for any class that fulfills the role or stereotype of a
+        repository (also known as Data Access Object or DAO). Among the uses of this marker is the
+        automatic translation of exceptions, as described in Exception Translation.
+
+!!!!    Spring provides further stereotype annotations: @Component, @Service, and @Controller. @Component is
+        a generic stereotype for any Spring-managed component. @Repository, @Service, and @Controller are
+        specializations of @Component for more specific use cases (in the persistence, service, and
+        presentation layers, respectively). Therefore, you can annotate your component classes with
+        @Component, but, by annotating them with @Repository, @Service, or @Controller instead, your classes
+        are more properly suited for processing by tools or associating with aspects. For example, these
+        stereotype annotations make ideal targets for pointcuts. @Repository, @Service, and @Controller can
+        also carry additional semantics in future releases of the Spring Framework. Thus, if you are
+        choosing between using @Component or @Service for your service layer, @Service is clearly the better
+        choice. Similarly, as stated earlier, @Repository is already supported as a marker for automatic
+        exception translation in your persistence layer.
+
+        Using Meta-annotations and Composed Annotations
+        Many of the annotations provided by Spring can be used as meta-annotations in your own code. A
+        meta-annotation is an annotation that can be applied to another annotation. For example, the
+        @Service annotation mentioned earlier is meta-annotated with @Component
+
+        The @Component causes @Service to be treated in the same way as @Component.
+
+        You can also combine meta-annotations to create “composed annotations”. For example, the
+        @RestController annotation from Spring MVC is composed of @Controller and @ResponseBody
+
+        Automatically Detecting Classes and Registering Bean Definitions
+        Spring can automatically detect stereotyped classes and register corresponding BeanDefinition
+        instances with the ApplicationContext.
+
+!!!     To autodetect these classes and register the corresponding beans, you need to add @ComponentScan to
+        your @Configuration class, where the basePackages attribute is a common parent package for the two
+        classes. (Alternatively, you can specify a comma- or semicolon- or space-separated list that includes
+        the parent package of each class.)
+
+            @Configuration
+            @ComponentScan(basePackages = "org.example")
+            public class AppConfig {
+              // ...
+            }
+
+        Using Filters to Customize Scanning
+        By default, classes annotated with @Component, @Repository, @Service, @Controller, @Configuration, or
+        a custom annotation that itself is annotated with @Component are the only detected candidate
+        components. However, you can modify and extend this behavior by applying custom filters. Add
+        them as includeFilters or excludeFilters attributes of the @ComponentScan annotation (or as
+        <context:include-filter /> or <context:exclude-filter /> child elements of the <context:componentscan> element
+        in XML configuration).
+
+            Dan: too detailed for now
+
+        Defining Bean Metadata within Components
+        The @Bean methods in a regular Spring component are processed differently than their counterparts
+        inside a Spring @Configuration class. The difference is that @Component classes are not enhanced with
+        CGLIB to intercept the invocation of methods and fields. CGLIB proxying is the means by which
+        invoking methods or fields within @Bean methods in @Configuration classes creates bean metadata
+        references to collaborating objects. Such methods are not invoked with normal Java semantics but
+        rather go through the container in order to provide the usual lifecycle management and proxying
+        of Spring beans, even when referring to other beans through programmatic calls to @Bean methods.
+        In contrast, invoking a method or field in a @Bean method within a plain @Component class has
+        standard Java semantics, with no special CGLIB processing or other constraints applying.
+
+        You may declare @Bean methods as static, allowing for them to be called without
+        creating their containing configuration class as an instance. This makes particular
+        sense when defining post-processor beans (for example, of type
+        BeanFactoryPostProcessor or BeanPostProcessor), since such beans get initialized
+        early in the container lifecycle and should avoid triggering other parts of the
+        configuration at that point
+
+!!!!    The Java language visibility of @Bean methods does not have an immediate impact
+        on the resulting bean definition in Spring’s container. You can freely declare your
+        factory methods as you see fit in non-@Configuration classes and also for static
+        methods anywhere. However, regular @Bean methods in @Configuration classes
+        need to be overridable — that is, they must not be declared as private or final.
+
+        Finally, a single class may hold multiple @Bean methods for the same bean, as an
+        arrangement of multiple factory methods to use depending on available
+        dependencies at runtime. This is the same algorithm as for choosing the
+        “greediest” constructor or factory method in other configuration scenarios: The
+        variant with the largest number of satisfiable dependencies is picked at
+        construction time, analogous to how the container selects between multiple
+        @Autowired constructors.
+
+        Naming Autodetected Components
+        TODO Continue from here
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
