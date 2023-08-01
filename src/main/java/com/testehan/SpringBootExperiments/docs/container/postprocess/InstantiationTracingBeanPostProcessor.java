@@ -1,4 +1,4 @@
-package com.testehan.SpringBootExperiments.docs.postprocess;
+package com.testehan.SpringBootExperiments.docs.container.postprocess;
 
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;

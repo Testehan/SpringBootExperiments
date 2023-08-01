@@ -2,7 +2,8 @@ package com.testehan.SpringBootExperiments;
 
 import com.testehan.SpringBootExperiments.alien.Alien;
 import com.testehan.SpringBootExperiments.alien.SpaceShip;
-import com.testehan.SpringBootExperiments.docs.lookup.SchoolService;
+import com.testehan.SpringBootExperiments.docs.container.configuration.MyService;
+import com.testehan.SpringBootExperiments.docs.container.lookup.SchoolService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -44,6 +45,9 @@ public class SpringBootExperimentsApplication {
 		System.out.println(first.getNotification().hashCode() + " != " + second.getNotification().hashCode());
 
 		System.out.println(first.getNotification().getSchoolName());
+
+		MyService myService = context.getBean(MyService.class);
+		System.out.println(myService.getName());
 	}
 
 

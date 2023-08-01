@@ -1,4 +1,4 @@
-package com.testehan.SpringBootExperiments.docs.qualifier;
+package com.testehan.SpringBootExperiments.docs.container.qualifier;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 
