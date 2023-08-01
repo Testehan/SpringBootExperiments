@@ -1,4 +1,4 @@
-package com.testehan.SpringBootExperiments.docs.lookup;
+package com.testehan.SpringBootExperiments.docs.container.lookup;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
