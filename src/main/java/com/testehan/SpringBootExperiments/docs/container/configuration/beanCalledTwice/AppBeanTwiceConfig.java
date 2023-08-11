@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 */
 
 @Configuration
-public class AppConfig {
+public class AppBeanTwiceConfig {
     @Bean
     public ClientService clientService1() {
         ClientServiceImpl clientService = new ClientServiceImpl();

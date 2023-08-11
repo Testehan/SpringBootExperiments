@@ -5,7 +5,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class MainBeanCalledTwice {
     public static void main(String[] args) {
-        ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(AppBeanTwiceConfig.class);
 
         // the hashcodes of the client dao service will be equal because the same instance is injected in both of them
         ClientService clientService = ctx.getBean(ClientService.class);
