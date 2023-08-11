@@ -2,9 +2,9 @@ package com.testehan.SpringBootExperiments.docs.container.configuration.importt;
 
 public class JdbcAccountRepository implements AccountRepository{
 
-    private final DataSource dataSource;
+    private final DataSource2 dataSource;
 
-    public JdbcAccountRepository(DataSource dataSource) {
+    public JdbcAccountRepository(DataSource2 dataSource) {
         this.dataSource = dataSource;
     }
 

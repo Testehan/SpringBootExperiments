@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 public class SystemTestConfig {
 
     @Bean
-    public DataSource dataSource() {
-        return new DataSource();
+    public DataSource2 dataSource2() {
+        return new DataSource2();
     }
 }

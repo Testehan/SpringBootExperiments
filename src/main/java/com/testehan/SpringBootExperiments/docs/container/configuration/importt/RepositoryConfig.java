@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 public class RepositoryConfig {
 
     @Bean
-    public AccountRepository accountRepository(DataSource dataSource) {
+    public AccountRepository accountRepository(DataSource2 dataSource) {
         return new JdbcAccountRepository(dataSource);
     }
 }
