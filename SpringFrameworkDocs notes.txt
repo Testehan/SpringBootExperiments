@@ -2466,86 +2466,256 @@ of Spring’s Aspect-Oriented Programming (AOP) technologies
             completely, have the bean expose the Resource properties it needs, and expect them to be injected
             into it.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        2.2.8. Application Contexts and Resource Paths
+            The classpath*: Prefix
+            When constructing an XML-based application context, a location string may use the special
+            classpath*: prefix, as the following example shows:
+                ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath*:conf/appContext.xml");
+
+            This special prefix specifies that all classpath resources that match the given name must be
+            obtained (internally, this essentially happens through a call to ClassLoader.getResources(…)) and
+            then merged to form the final application context definition
+
+
+    2.3. Validation, Data Binding, and Type Conversion
+!!      There are pros and cons for considering validation as business logic, and Spring offers a design for
+        validation (and data binding) that does not exclude either one of them. Specifically, validation
+        should not be tied to the web tier and should be easy to localize, and it should be possible to plug in
+        any available validator. Considering these concerns, Spring provides a Validator contract that is
+        both basic and eminently usable in every layer of an application
+
+!!      Data binding is useful for letting user input be dynamically bound to the domain model of an
+        application (or whatever objects you use to process user input). Spring provides the aptly named
+        DataBinder to do exactly that. The Validator and the DataBinder make up the validation package,
+        which is primarily used in but not limited to the web layer.
+
+        The BeanWrapper is a fundamental concept in the Spring Framework and is used in a lot of places.
+        However, you probably do not need to use the BeanWrapper directly. Because this is reference
+        documentation, however, we felt that some explanation might be in order. We explain the
+        BeanWrapper in this chapter, since, if you are going to use it at all, you are most likely do so when
+        trying to bind data to objects.
+
+        2.3.1. Validation by Using Spring’s Validator Interface
+            The Validator interface works by using an Errors object so that, while validating, validators can
+            report validation failures to the Errors object.
+
+            The static rejectIfEmpty(..) method on the ValidationUtils class is used to reject the name property
+            if it is null or the empty string.
+
+!!          If you want your CustomerValidator to reuse the logic contained within the
+            AddressValidator class without resorting to copy-and-paste, you can dependency-inject or
+            instantiate an AddressValidator within your CustomerValidato
+
+        2.3.2. Resolving Codes to Error Messages
+            This section covers outputting messages that correspond to
+            validation errors. In the example shown in the preceding section, we rejected the name and age
+            fields. If we want to output the error messages by using a MessageSource, we can do so using the
+            error code we provide when rejecting the field ('name' and 'age' in this case). When you call (either
+            directly, or indirectly, by using, for example, the ValidationUtils class) rejectValue or one of the
+            other reject methods from the Errors interface, the underlying implementation not only registers
+            the code you passed in but also registers a number of additional error codes.
+
+            By default, the DefaultMessageCodesResolver is used, which (for example) not only registers a message
+            with the code you gave but also registers messages that include the field name you passed to the reject
+            method. So, if you reject a field by using rejectValue("age", "too.darn.old"), apart from the
+            too.darn.old code, Spring also registers too.darn.old.age and too.darn.old.age.int (the first
+            includes the field name and the second includes the type of the field). This is done as a convenience
+            to aid developers when targeting error messages.
+
+        2.3.3. Bean Manipulation and the BeanWrapper
+!!!         One quite important class in the beans package is the BeanWrapper interface and its corresponding
+            implementation (BeanWrapperImpl). As quoted from the javadoc, the BeanWrapper offers functionality
+            to set and get property values (individually or in bulk), get property descriptors, and query
+            properties to determine if they are readable or writable. Also, the BeanWrapper offers support for
+            nested properties, enabling the setting of properties on sub-properties to an unlimited depth. The
+            BeanWrapper also supports the ability to add standard JavaBeans PropertyChangeListeners and
+            VetoableChangeListeners, without the need for supporting code in the target class. Last but not least,
+            the BeanWrapper provides support for setting indexed properties. The BeanWrapper usually is not used
+            by application code directly but is used by the DataBinder and the BeanFactory.
+            The way the BeanWrapper works is partly indicated by its name: it wraps a bean to perform actions
+            on that bean, such as setting and retrieving properties.
+
+            (This next section is not vitally important to you if you do not plan to work with the BeanWrapper
+            directly. If you use only the DataBinder and the BeanFactory and their default implementations, you
+            should skip ahead to the section on PropertyEditors.)
+
+            Built-in PropertyEditor Implementations
+            Spring uses the concept of a PropertyEditor to effect the conversion between an Object and a String.
+            It can be handy to represent properties in a different way than the object itself. For example, a Date
+            can be represented in a human readable way (as the String: '2007-14-09'), while we can still
+            convert the human readable form back to the original date (or, even better, convert any date
+            entered in a human readable form back to Date objects). This behavior can be achieved by
+            registering custom editors of type java.beans.PropertyEditor. Registering custom editors on a
+            BeanWrapper or, alternatively, in a specific IoC container (as mentioned in the previous chapter),
+            gives it the knowledge of how to convert properties to the desired type.
+
+            A couple of examples where property editing is used in Spring:
+                • Parsing HTTP request parameters in Spring’s MVC framework is done by using all kinds of
+                PropertyEditor implementations that you can manually bind in all subclasses of the
+                CommandController.
+
+            Spring has a number of built-in PropertyEditor implementations to make life easy. They are all
+            located in the org.springframework.beans.propertyeditors package. Most, (but not all, as indicated in
+            the following table) are, by default, registered by BeanWrapperImpl. Where the property editor is
+            configurable in some fashion, you can still register your own variant to override the default one.
+
+            Class                               Explanation
+            ByteArrayPropertyEditor             Editor for byte arrays. Converts strings to their corresponding byte
+                                                representations. Registered by default by BeanWrapperImpl.
+            ClassEditor                         Parses Strings that represent classes to actual classes and vice-versa.
+                                                When a class is not found, an IllegalArgumentException is thrown. By
+                                                default, registered by BeanWrapperImpl.
+            CustomBooleanEditor                 Customizable property editor for Boolean properties. By default,
+                                                registered by BeanWrapperImpl but can be overridden by registering a
+                                                custom instance of it as a custom editor
+            CustomNumberEditor                  Customizable property editor for any Number subclass, such as
+                                                Integer, Long, Float, or Double. By default, registered by
+                                                BeanWrapperImpl but can be overridden by registering a custom
+                                                instance of it as a custom editor.
+            FileEditor                          Resolves strings to java.io.File objects. By default, registered by
+                                                BeanWrapperImpl.
+            PropertiesEditor                    Can convert strings (formatted with the format defined in the
+                                                javadoc of the java.util.Properties class) to Properties objects. By
+                                                default, registered by BeanWrapperImpl
+
+            If there is a need to register other custom PropertyEditors, several mechanisms are available. The
+            most manual approach, which is not normally convenient or recommended, is to use the
+            registerCustomEditor() method of the ConfigurableBeanFactory interface, assuming you have a
+            BeanFactory reference. Another (slightly more convenient) mechanism is to use a special bean
+            factory post-processor called CustomEditorConfigurer. Although you can use bean factory postprocessors with
+            BeanFactory implementations, the CustomEditorConfigurer has a nested property
+            setup, so we strongly recommend that you use it with the ApplicationContext, where you can deploy
+            it in similar fashion to any other bean and where it can be automatically detected and applied.
+
+                Dan: too detailed for now..see in the docs for more info
+
+        2.3.4. Spring Type Conversion
+            Spring 3 introduced a core.convert package that provides a general type conversion system. The
+            system defines an SPI to implement type conversion logic and an API to perform type conversions
+            at runtime. Within a Spring container, you can use this system as an alternative to PropertyEditor
+            implementations to convert externalized bean property value strings to the required property
+            types. You can also use the public API anywhere in your application where type conversion is
+            needed.
+
+            Converter SPI
+            To create your own converter, implement the org.springframework.core.convert.converter.Converter interface
+            and parameterize S as the type you are converting from and T as the type you are converting to
+
+            For each call to convert(S), the source argument is guaranteed to not be null. Your Converter may
+            throw any unchecked exception if conversion fails. Specifically, it should throw an
+            IllegalArgumentException to report an invalid source value. Take care to ensure that your Converter
+            implementation is thread-safe.
+
+            Using ConverterFactory
+            When you need to centralize the conversion logic for an entire class hierarchy (for example, when
+            converting from String to Enum objects), you can implement ConverterFactory
+
+            Using GenericConverter
+            When you require a sophisticated Converter implementation, consider using the GenericConverter
+            interface. With a more flexible but less strongly typed signature than Converter, a GenericConverter
+            supports converting between multiple source and target types. In addition, a GenericConverter
+            makes available source and target field context that you can use when you implement your
+            conversion logic.
+
+            A good example of a GenericConverter is a converter that converts between a Java array and a
+            collection. Such an ArrayToCollectionConverter introspects the field that declares the target
+            collection type to resolve the collection’s element type. This lets each element in the source array be
+            converted to the collection element type before the collection is set on the target field.
+
+!!!         Because GenericConverter is a more complex SPI interface, you should use it only
+            when you need it. Favor Converter or ConverterFactory for basic type conversion needs.
+
+            Using ConditionalGenericConverter
+            Sometimes, you want a Converter to run only if a specific condition holds true. For example, you
+            might want to run a Converter only if a specific annotation is present on the target field, or you
+            might want to run a Converter only if a specific method (such as a static valueOf method) is defined
+            on the target class.
+
+            A good example of a ConditionalGenericConverter is an IdToEntityConverter that converts between a
+            persistent entity identifier and an entity reference. Such an IdToEntityConverter might match only
+            if the target entity type declares a static finder method (for example, findAccount(Long)). You might
+            perform such a finder method check in the implementation of matches(TypeDescriptor,
+            TypeDescriptor).
+
+            The ConversionService API
+            ConversionService defines a unified API for executing type conversion logic at runtime. Converters
+            are often run behind the following facade interface:ConversionService
+
+            Configuring a ConversionService
+            A ConversionService is a stateless object designed to be instantiated at application startup and then
+            shared between multiple threads. In a Spring application, you typically configure a
+            ConversionService instance for each Spring container (or ApplicationContext). Spring picks up that
+            ConversionService and uses it whenever a type conversion needs to be performed by the
+            framework. You can also inject this ConversionService into any of your beans and invoke it directly.
+            If no ConversionService is registered with Spring, the original PropertyEditor-based
+            system is used.
+
+        2.3.5. Spring Field Formatting
+            It provides a unified ConversionService API as well as a strongly typed Converter SPI for implementing
+            conversion logic from one type to another. A Spring container uses this system to bind bean
+            property values. In addition, both the Spring Expression Language (SpEL) and DataBinder use this
+            system to bind field values.
+
+            In general, you can use the Converter SPI when you need to implement general-purpose type
+            conversion logic — for example, for converting between a java.util.Date and a Long. You can use
+            the Formatter SPI when you work in a client environment (such as a web application) and need to
+            parse and print localized field values. The ConversionService provides a unified type conversion API
+            for both SPIs.
+
+            To create your own Formatter, implement the Formatter interface shown earlier.
+
+            The format subpackages provide several Formatter implementations as a convenience. The number
+            package provides NumberStyleFormatter, CurrencyStyleFormatter, and PercentStyleFormatter to
+            format Number objects that use a java.text.NumberFormat. The datetime package provides a
+            DateFormatter to format java.util.Date objects with a java.text.DateFormat
+
+            Annotation-driven Formatting
+            Field formatting can be configured by field type or annotation. To bind an annotation to a
+            Formatter, implement AnnotationFormatterFactory.
+
+            To create an implementation:
+                1. Parameterize A to be the field annotationType with which you wish to associate formatting
+                logic — for example org.springframework.format.annotation.DateTimeFormat.
+                2. Have getFieldTypes() return the types of fields on which the annotation can be used.
+                3. Have getPrinter() return a Printer to print the value of an annotated field.
+                4. Have getParser() return a Parser to parse a clientValue for an annotated field.
+            The following example AnnotationFormatterFactory implementation binds the @NumberFormat
+            annotation to a formatter to let a number style or pattern be specified
+                (Dan: too detailed for now...still a nice way to format values)
+
+        2.3.6. Configuring a Global Date and Time Format
+            By default, date and time fields not annotated with @DateTimeFormat are converted from strings by
+            using the DateFormat.SHORT style. If you prefer, you can change this by defining your own global
+            format.
+                (Dan: too detailed for now..see in the book if you ever need this)
+
+        2.3.7. Java Bean Validation
+            Overview of Bean Validation
+            Bean Validation provides a common way of validation through constraint declaration and metadata
+            for Java applications. To use it, you annotate domain model properties with declarative validation
+            constraints which are then enforced by the runtime. There are built-in constraints, and you can
+            also define your own custom constraints
+
+                public class PersonForm {
+                  @NotNull
+                  @Size(max=64)
+                  private String name;
+
+                  @Min(0)
+                  private int age;
+                }
+
+            A Bean Validation validator then validates instances of this class based on the declared constraints.
+            See Bean Validation for general information about the API. See the Hibernate Validator
+            documentation for specific constraints. To learn how to set up a bean validation provider as a
+            Spring bean, keep reading.
+
+            The following example shows a custom @Constraint declaration followed by an associated
+            ConstraintValidator implementation that uses Spring for dependency injection:
+                Dan: nice but too detailed for now
+
+    2.4. Spring Expression Language (SpEL)
+        TODO  Continue from here
 
 
 
