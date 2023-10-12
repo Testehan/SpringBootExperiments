@@ -102,6 +102,43 @@ TODO    Spring Boot, React.js & AWS S3 Full Stack Development
         the REST part of spring boot works by default with JSON...if you want xml to be supported, you will need to just
         add a jackson xml dependency, and obvious if the client requests an xml response, he will get one automatically
 
+    DONE Demystifying Spring Session: A Comprehensive Introduction for Java Developers!
+        https://www.youtube.com/watch?v=k62bO-W6Sb0
+            Played with this in the project SpringSessionRedisExperiments
+
+    DONE New in Spring Boot 3.1 - Spring Boot Docker Compose Module
+        https://www.youtube.com/watch?v=lS1GwdIfk0c
+            Played with this in the project SpringBootDockerComposeExperiments
+
+    DONE Where to deploy those Spring Boot Personal Projects        AWS Lambda
+        https://www.youtube.com/watch?v=GGPPkUcHleQ
+
+    Done Spring Boot Tutorial for Beginners - 2023 Crash Course using Spring Boot 3
+        https://www.youtube.com/watch?v=UgX5lgv4uVM
+            Aditional resources:
+                https://www.baeldung.com/spring-boot-starters
+
+            Interesting topics:
+            -JdbcTemplate is interesting and i should explore it further...this is like level 1 abstraction of JDBC offered by spring
+            SpringData is level 2 abstraction...things are more abstract for the developer
+            -Spring profiles
+            -Spring actuator ...exposes some endpoints that one can use to see various metrics of the application..(possibly also
+            to make configurations?)    see https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html
+            -Creating a Docker image out of the project (Dan: I experimented with this in the SpringBoo3AwsLambda project)
+            -Deployment to Railway...seems very fast and very good for quick prototyping...and also production
+
+    Done Spring Boot Railway: How to deploy a Spring Boot application to Railway
+        https://www.youtube.com/watch?v=5sVxvF47dcU
+
+    DONE Spring Boot Testing Basics: How to Unit Test & Integration Test REST Controllers
+        https://www.youtube.com/watch?v=pNiRNRgi5Ws
+
+    Spring Boot Testcontainers - Integration Testing made easy!
+        https://www.youtube.com/watch?v=erp-7MCK5BU
+
+TODO    Full Stack Development with Java Spring Boot, React, and MongoDB – Full Course
+        https://www.youtube.com/watch?v=5PdEmeopJVQ&ab_channel=freeCodeCamp.org
+
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 TODO    https://spring.academy/courses
             This is a very good source with free and paid courses on Spring...check it out
@@ -127,3 +164,18 @@ TODO    Spring boot microservices Level 2 : Fault tolerance and resilience
 
 TODO    Spring boot microservices Level 3 : microservice configuration
         https://www.youtube.com/watch?v=upoIwn4rWCo&list=PLqq-6Pq4lTTaoaVoQVfRJPqvNTCjcTvJB
+
+TODO    Spring framework Tutorial (001 Spring Framework Master Class Preview)
+        https://www.youtube.com/watch?v=MHoFSfXGX_A&list=PLw_k9CF7hBpJJsRWAhwSrDlWAzuMV0irl&ab_channel=FreeOnlineCourses
+
+TODO    Spring Boot Tutorial | Full Course [NEW]
+        https://www.youtube.com/watch?v=slTUtTSwRKU&list=PLGRDMO4rOGcNSBOJOlrgQqGpIgo6_VZgR&ab_channel=JavaGuides
+
+TODO    Spring Full Course - Learn Spring Framework in 4 Hours | Spring Framework Tutorial | Edureka
+        https://www.youtube.com/watch?v=VvGjZgqojMc&ab_channel=edureka%21
+
+TODO     Java Microservices with Spring Cloud: Developing Services
+        https://app.pluralsight.com/library/courses/java-microservices-spring-cloud-developing-services/table-of-contents    3.5h
+
+TODO    Spring Framework: Authenticating Users with Spring Security 5
+        https://app.pluralsight.com/library/courses/spring-security-fundamentals/table-of-contents                            5h
