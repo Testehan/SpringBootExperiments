@@ -133,8 +133,24 @@ TODO    Spring Boot, React.js & AWS S3 Full Stack Development
     DONE Spring Boot Testing Basics: How to Unit Test & Integration Test REST Controllers
         https://www.youtube.com/watch?v=pNiRNRgi5Ws
 
-    Spring Boot Testcontainers - Integration Testing made easy!
+    DONE Spring Boot Testcontainers - Integration Testing made easy!
         https://www.youtube.com/watch?v=erp-7MCK5BU
+
+    DONE Spring Boot Code Structure: Package by Layer vs Package by Feature
+        https://www.youtube.com/watch?v=B1d95I7-zsw
+
+        Package by Layer vs Package by Feature
+            https://medium.com/sahibinden-technology/package-by-layer-vs-package-by-feature-7e89cde2ae3a
+
+                Package by Feature is like microservice architecture. Each package is limited to classes related to a
+                particular feature. On the other hand, Package By Layer is monolithic. As an application grows in size,
+                the number of classes in each package will increase without bound.
+
+    DONE Spring Boot Observability Uncovered: Enabling & Using the Observation API
+        https://www.youtube.com/watch?v=exRkiVLyPpc
+
+    DONE The #1 Spring Boot Starter you should include in every single application
+        https://www.youtube.com/watch?v=4OVe0MWgZ4k
 
 TODO    Full Stack Development with Java Spring Boot, React, and MongoDB – Full Course
         https://www.youtube.com/watch?v=5PdEmeopJVQ&ab_channel=freeCodeCamp.org
