@@ -5947,32 +5947,162 @@ Chapter 5. Web on Servlet Stack
                                             across a redirect. See Flash Attributes.
 
             Web MVC Config
-            todo continue from here
+                Applications can declare the infrastructure beans listed in Special Bean Types that are required to
+                process requests. The DispatcherServlet checks the WebApplicationContext for each special bean. If
+                there are no matching bean types, it falls back on the default types listed in
+                DispatcherServlet.properties.
+                In most cases, the MVC Config is the best starting point. It declares the required beans in either Java
+                or XML and provides a higher-level configuration callback API to customize it.
 
 
+            Servlet Config
+                In a Servlet environment, you have the option of configuring the Servlet container
+                programmatically as an alternative or in combination with a web.xml file. The following example
+                registers a DispatcherServlet:
 
+                    import org.springframework.web.WebApplicationInitializer;
+                    public class MyWebApplicationInitializer implements WebApplicationInitializer {
+                        @Override
+                        public void onStartup(ServletContext container) {
+                            XmlWebApplicationContext appContext = new XmlWebApplicationContext();
+                            appContext.setConfigLocation("/WEB-INF/spring/dispatcher-config.xml");
+                            ServletRegistration.Dynamic registration = container.addServlet("dispatcher", new DispatcherServlet(appContext));
+                            registration.setLoadOnStartup(1);
+                            registration.addMapping("/");
+                      }
+                    }
 
+                WebApplicationInitializer is an interface provided by Spring MVC that ensures your
+                implementation is detected and automatically used to initialize any Servlet 3 container. An abstract
+                base class implementation of WebApplicationInitializer named
+                AbstractDispatcherServletInitializer makes it even easier to register the DispatcherServlet by
+                overriding methods to specify the servlet mapping and the location of the DispatcherServlet
+                configuration.
+                This is recommended for applications that use Java-based Spring configuration, as the following
+                example shows:
 
+                    public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+                      @Override
+                      protected Class<?>[] getRootConfigClasses() {
+                        return null;
+                      }
+                      @Override
+                      protected Class<?>[] getServletConfigClasses() {
+                        return new Class<?>[] { MyWebConfig.class };
+                      }
+                      @Override
+                      protected String[] getServletMappings() {
+                        return new String[] { "/" };
+                      }
+                    }
 
+                AbstractDispatcherServletInitializer also provides a convenient way to add Filter instances and
+                have them be automatically mapped to the DispatcherServlet, as the following example shows:
 
+                    public class MyWebAppInitializer extends AbstractDispatcherServletInitializer {
+                      // ...
+                      @Override
+                      protected Filter[] getServletFilters() {
+                        return new Filter[] { bew HiddenHttpMethodFilter(), new CharacterEncodingFilter() };
+                      }
+                    }
 
+            Processing
+!!!!            The DispatcherServlet processes requests as follows:
+                    • The WebApplicationContext is searched for and bound in the request as an attribute that the
+                    controller and other elements in the process can use. It is bound by default under the
+                    DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE key.
+                    • The locale resolver is bound to the request to let elements in the process resolve the locale to
+                    use when processing the request (rendering the view, preparing data, and so on). If you do not
+                    need locale resolving, you do not need the locale resolver.
+                    • The theme resolver is bound to the request to let elements such as views determine which
+                    theme to use. If you do not use themes, you can ignore it.
+                    • If you specify a multipart file resolver, the request is inspected for multiparts. If multiparts are
+                    found, the request is wrapped in a MultipartHttpServletRequest for further processing by other
+                    elements in the process. See Multipart Resolver for further information about multipart
+                    handling.
+                    • An appropriate handler is searched for. If a handler is found, the execution chain associated
+                    with the handler (preprocessors, postprocessors, and controllers) is run to prepare a model for
+                    rendering. Alternatively, for annotated controllers, the response can be rendered (within the
+                    HandlerAdapter) instead of returning a view.
+                    • If a model is returned, the view is rendered. If no model is returned (maybe due to a
+                    preprocessor or postprocessor intercepting the request, perhaps for security reasons), no view
+                    is rendered, because the request could already have been fulfilled.
 
+                The HandlerExceptionResolver beans declared in the WebApplicationContext are used to resolve
+                exceptions thrown during request processing. Those exception resolvers allow customizing the
+                logic to address exceptions.
 
+                You can customize individual DispatcherServlet instances by adding Servlet initialization
+                parameters (init-param elements) to the Servlet declaration in the web.xml file. The following table
+                lists the supported parameters:
+                    Parameter                                               Explanation
+                    contextClass                                            Class that implements
+                                                                            ConfigurableWebApplicationContext, to be
+                                                                            instantiated and locally configured by this
+                                                                            Servlet. By default, XmlWebApplicationContext is
+                                                                            used.
+                    contextConfigLocation                                   String that is passed to the context instance
+                                                                            (specified by contextClass) to indicate where
+                                                                            contexts can be found. The string consists
+                                                                            potentially of multiple strings (using a comma as
+                                                                            a delimiter) to support multiple contexts. In the
+                                                                            case of multiple context locations with beans
+                                                                            that are defined twice, the latest location takes
+                                                                            precedence.
+                    namespace                                               Namespace of the WebApplicationContext.
+                                                                            Defaults to [servlet-name]-servlet.
+                    throwExceptionIfNoHandlerFound                          Whether to throw a NoHandlerFoundException
+                                                                            when no handler was found for a request. The
+                                                                            exception can then be caught with a
+                                                                            HandlerExceptionResolver (for example, by using
+                                                                            an @ExceptionHandler controller method) and
+                                                                            handled as any others.
+                                                                            By default, this is set to false, in which case the
+                                                                            DispatcherServlet sets the response status to 404
+                                                                            (NOT_FOUND) without raising an exception.
+                                                                            Note that, if default servlet handling is also
+                                                                            configured, unresolved requests are always
+                                                                            forwarded to the default servlet and a 404 is
+                                                                            never raised.
 
+            Path Matching
+!!!!            The Servlet API exposes the full request path as requestURI and further sub-divides it into
+                contextPath, servletPath, and pathInfo whose values vary depending on how a Servlet is mapped.
+                From these inputs, Spring MVC needs to determine the lookup path to use for mapping handlers,
+                which should exclude the contextPath and any servletMapping prefix, if applicable
 
+                The servletPath and pathInfo are decoded and that makes them impossible to compare directly to
+                the full requestURI in order to derive the lookupPath and that makes it necessary to decode the
+                requestURI. However this introduces its own issues because the path may contain encoded reserved
+                characters such as "/" or ";" that can in turn alter the structure of the path after they are decoded
+                which can also lead to security issues. In addition, Servlet containers may normalize the
+                servletPath to varying degrees which makes it further impossible to perform startsWith
+                comparisons against the requestURI.
 
+                If the DispatcherServlet is mapped as the default Servlet with "/" or
+                otherwise without a prefix with "/*" and the Servlet container is 4.0+ then Spring MVC is able to
+                detect the Servlet mapping type and avoid use of the servletPath and pathInfo altogether. On a 3.1
+                Servlet container, assuming the same Servlet mapping types, the equivalent can be achieved by
+                providing a UrlPathHelper with alwaysUseFullPath=true via Path Matching in the MVC config
 
+            Interception
+!!              All HandlerMapping implementations support handler interceptors that are useful when you want to
+                apply specific functionality to certain requests — for example, checking for a principal. Interceptors
+                must implement HandlerInterceptor from the org.springframework.web.servlet package with three
+                methods that should provide enough flexibility to do all kinds of pre-processing and postprocessing:
+                    • preHandle(..): Before the actual handler is run
+                    • postHandle(..): After the handler is run
+                    • afterCompletion(..): After the complete request has finished
 
+!!              The preHandle(..) method returns a boolean value. You can use this method to break or continue
+                the processing of the execution chain. When this method returns true, the handler execution chain
+                continues. When it returns false, the DispatcherServlet assumes the interceptor itself has taken care
+                of requests (and, for example, rendered an appropriate view) and does not continue executing the
+                other interceptors and the actual handler in the execution chain.
 
-
-
-
-
-
-
-
-
-
+            Exceptions
+            todo continue
 
 
 
