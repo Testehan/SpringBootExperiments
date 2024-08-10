@@ -1,0 +1,3203 @@
+Spring Start Here LEARN WHAT YOU NEED AND LEARN IT WELL
+
+Born as an alternative to EJBs in the early 2000s, the Spring
+framework quickly overtook its opponent with the simplicity
+of its programming model, the variety of its features, and its
+third-party library integrations. The Spring ecosystem grew
+over the years into the broadest and most mature
+development framework available in any programming
+language. Its main competitor quit the race when Oracle
+stopped the evolution of Java EE 8, and the community took
+over its maintenance via Jakarta EE.
+
+Spring is the framework underlying more than half of the Java applications. This fact builds up
+an enormous codebase that makes it critical for any Java
+developer to learn Spring, as it’s inevitable you’ll encounter this technology in your career
+
+With this book, however, it’s very hard to find
+anything to remove; all the concepts covered are recurring
+topics in the development of any Spring application.
+
+In the past few years, I’ve come to consider
+Spring a must-learn for beginners. Apps today are no longer
+implemented with vanilla languages—almost everything relies on frameworks
+
+Some years ago, one would start learning the language fundamentals and get
+employed as a developer without even knowing what a
+framework is. But today, these things are different. Learning
+all the details of a language up-front is no longer the way to
+quickly develop the skills you need to work in a software
+development team. Now, I recommend developers start with
+the fundamentals and, once they feel comfortable with the
+basics, start learning an application framework.
+
+
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+PART I Fundamentals
+
+
+
+
+========================================================================================================================
+Chapter 1. Spring in the real world
+
+    The Spring framework (shortly, Spring) is an application
+    framework that is part of the Java ecosystem. An application
+    framework is a set of common software functionalities that
+    provides a foundation structure for developing an
+    application. An application framework eases the effort of
+    writing an application by taking out the effort of writing all
+    the program code from scratch.
+
+    Spring is the most used Java framework today.
+
+    Initially, when not so many applications were implemented,
+    each application was unique and developed from scratch
+    using a specific programming language. When the software
+    development domain extended, and more and more
+    applications started to be published on the market, it
+    became easier to observe that many of these apps had
+    similar requirements. Let’s name a few of them:
+        -Logging error, warning, and info messages happen in every app.
+        -Most applications use transactions to process data changes. Transactions represent an important
+        mechanism that takes care of data consistency.
+        -Most applications use protection mechanisms against the same common vulnerabilities.
+        -Most applications use similar ways to communicate with each other.
+        -Most applications use similar mechanisms to improve their performance, like caching or data compression.
+
+!!! And the list continues. It turns out that the business logic
+    code implemented in an app is significantly smaller than the
+    wheels and belts that make the engine of the application
+    (also often referred to as “the plumbing”).
+
+        Dan: see "1-2 business logic vs plumbing iceberg"
+
+    Various applications can reuse these
+    nonbusiness implementations. Is it then efficient to rewrite
+    the same functionalities every time? Of course not:
+        - You spare a lot of time and money by reusing something rather than developing it yourself.
+        - An existing implementation that many apps already use has fewer chances to introduce bugs, as others have
+        tested it.
+        - You benefit from the advice of a community because you now have a lot of developers understanding the same
+        functionality. If you had implemented your own code, only a few people would know it.
+
+
+    1.2 The Spring ecosystem
+        We refer to Spring as a framework, but it is much more complex. Spring is an ecosystem of frameworks.
+
+        You can initially imagine the Spring framework as a solar system, where Spring Core represents the star in the
+        middle, which holds all the framework together .(the planets are Spring Data, Spring MVC, Spring Security..etc)
+
+        1.2.1 Discovering Spring Core: The foundation of Spring
+            Spring works based on the principle inversion of
+            control (IoC). When using this principle, instead of allowing
+            the app to control the execution, we give control to some
+            other piece of software—in our case, the Spring framework.
+
+            Instead of executing its own code, which makes use of several other dependencies, in case
+            of an IoC scenario, the app execution is controlled by the
+            dependency. The Spring framework controls an app during its
+            execution. Therefore, it implements an IoC scenario of execution.
+
+                Dan: see "1-4 spring inversion of control"
+
+            Using the IoC container, to which you often refer as the Spring context,
+            you make certain objects known to Spring, which enables
+            the framework to use them in the way you configured.
+
+        1.2.2 Using Spring Data Access feature to implement the app’s persistence
+            The Spring Data Access includes using JDBC, integrating
+            with object-relational mapping (ORM) frameworks like
+            Hibernate and managing transactions.
+
+        1.2.3 The Spring MVC capabilities for developing web apps
+            within the Spring ecosystem, you’ll find a
+            large set of tools that enables you to write web applications
+            and web services in different fashions. You can use the
+            Spring MVC to develop apps using a standard servlet
+            fashion, which is common in a vast number of applications today
+
+        EXTENDING THE PERSISTENCE CAPABILITIES WITH SPRING DATA
+!!!!!       NOTE We have Spring Data Access, which is a module of Spring Core, and we also have
+            an independent project in the Spring ecosystem named Spring Data. Spring Data Access
+            contains fundamental data access implementations like the transaction mechanism and
+            JDBC tools. Spring Data enhances access to databases and offers a broader set of tools,
+            which makes development more accessible and enables your app to connect to different
+            kinds of data sources
+
+        SPRING BOOT
+            Spring Boot is a project part of the Spring ecosystem that
+            introduces the concept of “convention over configuration.”
+            The main idea of this concept is that instead of setting up all
+            the configurations of a framework yourself, Spring Boot
+            offers you a default configuration that you can customize as
+            needed. The result, in general, is that you write less code
+            because you follow known conventions and your app differs
+            from others in few or small ways.
+
+    1.3 Spring in real-world scenarios
+        I’ve seen teams successfully using Spring in different kinds of applications,
+        such as the development of an automation testing app or
+        even in standalone desktop scenarios.
+
+        But these are common cases in which generally Spring is a good fit:
+            1. The development of a backend app
+            2. The development of an automation testing framework
+            3. The development of a desktop app
+            4. The development of a mobile app
+
+        1.3.1 Using Spring in the development of a backend app
+            A backend application is the part of a system that executes
+            on the server side and has the responsibility of managing
+            data and serving client applications’ requests. The users
+            access functionalities by using the client apps directly.
+            Further, the client apps make requests to the backend app to
+            work with the users’ data. The backend app might use
+            databases to store data or communicate with other backend
+            apps in different fashions.
+
+    1.4 When not to use frameworks
+        Imagine using a chainsaw to cut bread....a good analogy for using a framework when not needed..
+
+        In which of the following scenarios should you consider not using a framework?
+            1. You need to implement a particular functionality with a
+            footprint as small as possible. By footprint, I mean the storage memory occupied by the app’s files.
+!!!!             Containers in their entirety is a topic beyond the scope of
+                this book, so for now the only thing I need you to know is
+                that when you use such a deployment fashion, you want
+                your application to be as small as possible. A container is
+                like a box in which your application lives. One crucial
+                principle regarding app deployment in containers is that the
+                containers should be easily disposable: they can be
+                destroyed and recreated as fast as possible. The size of the
+                app (footprint) matters a lot here. You can save seconds
+                from the app initialization by making it smaller. That doesn’t
+                mean you won’t use frameworks for all the apps deployed in
+                containers.
+
+!!!!!           Such a case is a kind of application
+                called server-less function. These server-less functions are
+                tiny applications deployed in containers. Because you don’t
+                have too much access to the way they’re deployed, it looks
+                like they execute without a server (hence their name). These
+                apps need to be small, and that’s why, for this specific case
+                of apps, you’ll want to avoid adding a framework as much as
+                possible. Because of its size, it’s also possible that you won’t
+                need a framework anyway.
+
+            2. Specific security requirements force you to implement
+            only custom code in your app without making use of any open source framework.
+                This scenario usually happens with apps in the field of defense or
+                governmental organizations
+
+            3. You’d have to make so many customizations over the
+            framework that you’d write more code than if you’d simply not used it at all
+
+            4. You already have a functional app, and by changing it to
+            use a framework you don’t gain any benefit.
+
+
+========================================================================================================================
+Chapter 2. The Spring context: Defining beans
+
+    In this chapter, you start learning how to work with a crucial
+    Spring framework element: the context (also known as the
+    application context in a Spring app). Imagine the context as
+    a place in the memory of your app in which we add all the
+    object instances that we want the framework to manage. By
+    default, Spring doesn’t know any of the objects you define in
+    your application. To enable Spring to see your objects, you
+    need to add them to the context
+
+    We start in this chapter by learning how to add object
+    instances to the Spring context.
+    We’ll name these object instances “beans.”
+
+!!! You’ll find out later that not all the objects of an app need to be managed by Spring, so you
+    don’t need to add all the object instances of your app to the Spring context.
+
+    2.2 Adding new beans to the Spring context
+        In this section, you’ll learn how to add new object instances (i.e., beans) to the Spring context
+
+        Depending on the action, you’ll choose a specific way to add the bean; we’ll discuss when to select
+        one or another. You can add beans in the context in the
+        following ways (which we’ll describe later in this chapter):
+            Using the @Bean annotation
+            Using stereotype annotations
+            Programmatically
+
+!!      A critical thing to observe is that Spring is designed to be
+        modular. By modular, I mean that you don’t need to add the
+        whole Spring to your app when you use something out of the
+        Spring ecosystem. You just need to add those parts that you
+        use. For this reason, in listing 2.5, you see that I’ve only
+        added the spring-context dependency, which instructs
+        Maven to pull the needed dependencies for us to use the Spring context.
+
+        2.2.1 Using the @Bean annotation to add beans into the Spring context
+            This makes it possible for you to add the instances of the classes defined
+            in your project (like Parrot in our case), as well as classes
+            you didn’t create yourself but you use in your app. I believe
+            this approach is the easiest to understand when starting out.
+
+!!!!!       The steps you need to follow to add a bean to the Spring
+            context using the @Bean annotation are as follows:
+                1. Define a configuration class (annotated with
+                @Configuration) for your project, which, as we’ll
+                discuss later, we use to configure the context of Spring.
+                2. Add a method to the configuration class that returns the
+                object instance you want to add to the context and
+                annotate the method with the @Bean annotation.
+                3. Make Spring use the configuration class defined in step 1.
+                As you’ll learn later, we use configuration classes to
+                write different configurations for the framework.
+
+            By adding the @Bean annotation, we instruct Spring to call this method when at context
+            initialization and add the returned value to the context.
+
+!!!!        Observe that the name I used for the method (@Bean annotated method) doesn’t
+            contain a verb. You probably learned that a Java best
+            practice is to put verbs in method names because the
+            methods generally represent actions. But for methods we
+            use to add beans in the Spring context, we don’t follow this
+            convention. Such methods represent the object instances
+!!!!        they return and that will now be part of the Spring context.
+            The method’s name also becomes the bean’s name (as in
+            listing 2.8, the bean’s name is now “parrot”). By convention,
+            you can use nouns, and most often they have the same name as the class.
+
+            Thus far we added one or more beans of different types to
+            the Spring context. But could we add more than one object
+            of the same type ? If yes, how can we individually refer to these objects?
+
+!!!!!!      You can add more beans of the same type to the
+            Spring context by using multiple methods annotated with @Bean.
+            Each instance will have a unique identifier. To refer to them
+            afterward, you’ll need to use the beans’ identifiers.
+!!!         Beans’ names (or identifiers) in the Spring context are parrot1, parrot2, and parrot3
+            (like the name of the @Bean methods defining them)
+
+                 var context = new AnnotationConfigApplicationContext(ProjectConfig.class);
+
+                 Parrot p = context.getBean("parrot2", Parrot.class);   //  First parameter is the name of the instance to which we refer
+
+!!!!!!!     If you’d like to give another name to the bean, you can use
+            either one of the name or the value attributes of the @Bean
+            annotation. Any of the following syntaxes will change the
+            name of the bean in "miki":
+                @Bean(name = "miki")
+                @Bean(value = "miki")
+                @Bean("miki")
+
+        2.2.2 Using stereotype annotations to add beans to the Spring context
+            When you have multiple beans of the same kind in the Spring context you can make
+            one of them primary. You mark the bean you want to be primary using the @Primary
+            annotation. A primary bean is the one Spring will choose if it has multiple options and
+            you don’t specify a name; the primary bean is simply Spring’s default choice
+
+                @Bean
+                @Primary
+                Parrot parrot2() {
+                    var p = new Parrot();
+                    p.setName("Miki");
+                    return p;
+                }
+!!!!!!      If you refer to a Parrot without specifying the name, Spring will now select Miki by
+            default. Of course, you can only define one bean of a type as primary.
+
+!!!         With stereotype annotations, you add the annotation above
+            the class for which you need to have an instance in the
+            Spring context. When doing so, we say that you’ve marked
+            the class as a component. When the app creates the Spring
+            context, Spring creates an instance of the class you marked
+            as a component and adds that instance to its context
+
+!!!!!       But wait! This code won’t work just yet. By default, Spring
+            doesn’t search for classes annotated with stereotype
+            annotations, so if we just leave the code as-is, Spring won’t
+            add a bean of type Parrot in its context. To tell Spring it
+            needs to search for classes annotated with stereotype
+            annotations, we use the @ComponentScan annotation over
+            the configuration class. Also, with the @ComponentScan
+            annotation, we tell Spring where to look for these classes.
+            We enumerate the packages where we defined the classes
+            with stereotype annotations
+
+!!!!!       Advantages and disadvantages: A comparison of the
+            two ways of adding beans to the Spring context, which tells you
+            when you would use either of them
+
+!!!!!           Using the @Bean annotation
+                1. You have full control over the instance creation you add to the Spring context. It
+                is your responsibility to create and configure the instance in the body of the
+                method annotated with @Bean. Spring only takes that instance and adds
+                it to the context as-is.
+                2. You can use this method to add more instances of the same type to the Spring
+                context. Remember, in section 2.1.1 we added three Parrot instances into the
+                Spring context.
+                3. You can use the @Bean annotation to add to the Spring context any object instance. The
+                class that defines the instance doesn’t need to be defined in your app. Remember,
+                earlier we added a String and an Integer to the Spring context.
+                4. You need to write a separate method for each bean you create, which adds
+                boilerplate code to your app. For this reason, we prefer using @Bean as a
+                second option to stereotype annotations in our projects.
+
+!!!!!           Using stereotype annotations
+                1. You only have control over the instance after the framework creates it.
+                2. This way, you can only add one instance of the class to the context.
+                3. You can use stereotype annotations only to create beans of the classes your application
+                owns. For example, you couldn’t add a bean of type String or Integer like we did in section
+                2.1.1 with the @Bean annotation because you don’t own these classes to change them by
+                adding a stereotype annotation.
+                4. Using stereotype annotations to add beans to the Spring context doesn’t add
+                boilerplate code to your app. You’ll prefer this approach in general for
+                the classes that belong to your app
+
+            What you’ll observe is that in real-world scenarios you’ll use
+            stereotype annotations as much as possible (because this
+            approach implies writing less code), and you’ll only use the
+            @Bean when you can’t add the bean otherwise (e.g., you
+            create the bean for a class that is part of a library so you
+            cannot modify that class to add the stereotype annotation).
+
+        2.2.3 Programmatically adding beans to the Spring context
+            You’d use this approach when you want to implement a custom way of adding beans
+            to the context and the @Bean or the stereotype annotations
+            are not enough for your needs. Say you need to register
+            specific beans in the Spring context depending on specific
+            configurations of your application. With the @Bean and
+            stereotype annotations, you can implement most of the
+            scenarios, but you can’t do something like the code
+            presented in the next snippet:
+                if (condition) {
+                 registerBean(b1);
+                } else {
+                 registerBean(b2);
+                }
+
+            To add a bean to the Spring context using a programmatic approach, you just
+            need to call the registerBean() method of the ApplicationContext instance
+
+            Remember, you can use this approach only with Spring 5 and later.
+
+
+========================================================================================================================
+Chapter 3. The Spring context: Wiring beans
+
+    In this chapter, we discuss how to access the beans, which
+    we’ve added to the Spring context. In chapter 2, we used
+    the getBean() method of the context instance directly to
+    access the beans. But in apps, we need to refer from one
+    bean to another in a straightforward fashion—by telling
+    Spring to provide a reference to an instance from its context
+    where we need it.
+
+    3.1 Implementing relationships among beans defined in the configuration file
+        Say we have two instances in the Spring context: a parrot
+        and a person. We’ll create and add these instances to the
+        context. We want to make the person own the parrot. In
+        other words, we need to link the two instances
+
+        So, for each of the two approaches (wiring and auto-wiring),
+        we have two steps (figure 3.1):
+            1. Add the person and parrot beans to the Spring context (as you learned in chapter 2).
+            2. Establish a relationship between the person and the parrot.
+
+        3.1.1 Wiring the beans using a direct method call between the @Bean methods
+            @Configuration
+            public class ProjectConfig {
+             @Bean
+             public Parrot parrot() {
+                 Parrot p = new Parrot();
+                 p.setName("Koko");
+                 return p;
+             }
+             @Bean
+             public Person person() {
+                 Person p = new Person();
+                 p.setName("Ella");
+                 p.setParrot(parrot());             // this is one approach of wiring the beans
+                 return p;
+             }
+            }
+
+            We establish the relationship between the beans
+            using direct wiring. This approach implies calling the method
+            that returns the bean you want to set directly. You need to call
+            this method from the one that defines the bean for which you set
+            the dependency
+
+            Whenever I teach this approach in a class, I know some
+            have the question: doesn’t this mean that we create two
+            instances of Parrot (figure 3.5)—one instance Spring
+            creates and adds into its context and another one when the
+            person() method makes the direct call to the parrot()
+            method? No, we actually have only one parrot instance in
+            this application overall.
+
+!!!         It might look strange at first, but Spring is smart enough to
+            understand that by calling the parrot() method, you want
+            to refer to the parrot bean in its context.
+
+            When we use the @Bean annotation to define beans into the Spring context,
+            Spring controls how the methods are called and can apply
+            logic above the method call (you’ll learn more about how
+            Spring intercepts methods in chapter 6).
+!!!!!!      For the moment, remember that when the person() method calls the
+            parrot() method, Spring will apply logic, as described next.
+            If the parrot bean already exists in the context, then instead
+            of calling the parrot() method, Spring will directly take
+            the instance from its context. If the parrot bean does not yet
+            exist in the context, Spring calls the parrot() method, adds the bean to the Spring context and
+            returns the bean to the call made from the person() method.
+
+        3.1.2 Wiring the beans using the @Bean annotated method’s parameters
+            Instead of directly calling the method that defines the bean we wish to refer to, we
+            add a parameter to the method of the corresponding type of
+            object, and we rely on Spring to provide us a value through that parameter
+
+            This approach is a bit more flexible than the one we discussed in section 3.1.1. With this
+            approach, it doesn’t matter if the bean we want to refer to is
+            defined with a method annotated with @Bean or using a
+            stereotype annotation like @Component (discussed in
+            chapter 2). In my experience, however, I have observed it’s
+            not necessarily this flexibility that makes developers use this
+            approach; it’s mostly the taste of each developer that
+            determines which approach they use when working with
+            beans. I wouldn’t say one is better than the other, but you’ll
+            encounter both approaches in real-world scenarios, so you
+            need to understand and be able to use them.
+
+                 @Bean
+                 public Person person(Parrot parrot) {   // this is second approach of wiring the beans
+                    Person p = new Person();
+                    p.setName("Ella");
+                    p.setParrot(parrot);
+                    return p;
+                 }
+
+            When calling the method, Spring knows it has to
+            find a parrot bean in its context and inject its value into the
+            parameter of the person() method.
+
+!!!!!!!!    As its name suggests, dependency injection is a technique involving the
+            framework setting a value into a specific field or parameter.
+            In our case, Spring sets a particular value into the
+            parameter of the person() method when calling it and
+            resolves a dependency of this method. DI is an application of
+            the IoC principle, and IoC implies that the framework
+            controls the application at execution
+
+                Dan: check "1-4 spring inversion of control" again
+
+    3.2 Using the @Autowired annotation to inject beans
+        You’ll often
+        encounter this technique, which refers to an annotation
+        named @Autowired, when you can change the class for
+        which you define the bean (when this class is not part of a
+        dependency). Using the @Autowired annotation, we mark
+        an object’s property where we want Spring to inject a value
+        from the context, and we mark this intention directly in the
+        class that defines the object that needs the dependency.
+
+!!!     As you’ll see, there are three ways we can use the @Autowired annotation:
+            - Injecting the value in the field of the class, which you
+            usually find in examples and proofs of concept
+            - Injecting the value through the constructor parameters
+            of the class approach that you’ll use most often in realworld scenarios
+            - Injecting the value through the setter, which you’ll rarely
+            use in production-ready code
+
+            3.2.1 Using @Autowired to inject the values through the class fields
+                As you’ll learn, even if this
+                approach is very straightforward, it has its sins, which is why
+                we avoid using it when writing production code. However,
+                you’ll see it often used in examples, proofs of concept, and
+                in writing tests, as we’ll discuss in chapter 15, so you need
+                to know how to use this approach.
+
+                When annotating a class with @Component, Spring knows it has to create an instance of
+                that class and add it to its context
+
+                Why is this approach not desired in production code? It’s not
+                totally wrong to use it, but you want to make sure you make
+                your app maintainable and testable in production code. By
+                injecting the value directly in the field:
+                    - you don’t have the option to make the field final, and this way, make sure no one can
+                    change its value after initialization
+                    - it’s more difficult to manage the value yourself at initialization.
+
+            3.2.2 Using @Autowired to inject the values through the constructor
+                This approach is the one used most often in production code and
+                the one I recommend. It enables you to define the fields as
+                final, ensuring no one can change their value after Spring
+                initializes them. The possibility to set the values when calling
+                the constructor also helps you when writing specific unit
+                tests where you don’t want to rely on Spring making the
+                field injection for you (but more on this subject later).
+
+                You need to define a constructor for the class and annotate it with @Autowired.
+                     @Autowired
+                     public Person(Parrot parrot) {
+                        this.parrot = parrot;
+                     }
+
+!!!!!!          NOTE Starting with Spring version 4.3, when you only have one constructor in the class,
+                you can omit writing the @Autowired annotation.
+
+            3.2.3 Using dependency injection through the setter
+                You won’t often find developers applying the approach of
+                using the setter for dependency injection. This approach has
+                more disadvantages than advantages: it’s more challenging
+                to read, it doesn’t allow you to make the field final, and it
+                doesn’t help you in making the testing easier.
+
+    3.3 Dealing with circular dependencies
+        But Spring can also get confused in some cases. A scenario often
+        encountered in practice is generating a circular dependency by mistake
+
+!!!     Having dependencies from one object to
+        another like this is a bad design of classes. In such a case,
+        you need to rewrite your code.
+
+    3.4 Choosing from multiple beans in the Spring context
+        Depending on your implementation, you have the following
+        cases:
+!!!!!       1. The identifier of the parameter matches the name of one
+            of the beans from the context (which, remember, is the
+            same as the name of the method annotated with @Bean
+            that returns its value). In this case, Spring will choose
+            the bean for which the name is the same as the
+            parameter.
+!!!!!       2. The identifier of the parameter doesn’t match any of the
+            bean names from the context. Then you have the
+            following options:
+                a. You marked one of the beans as primary (as we
+                discussed in chapter 2, using the @Primary
+                annotation). In this case, Spring will select the
+                primary bean for injection.
+                b. You can explicitly select a specific bean using the
+                @Qualifier annotation, which we discuss in this chapter.
+                c. If none of the beans is primary and you don’t use
+                @Qualifier, the app will fail with an exception,
+                complaining that the context contains more beans of
+                the same type and Spring doesn’t know which one to choose.
+
+!!!!    In a real-world scenario, I prefer to avoid relying on the
+        name of the parameter, which could be easily refactored and
+        changed by mistake by another developer. To feel more
+        comfortable, I usually choose a more visible approach to
+        express my intention to inject a specific bean: using the
+        @Qualifier annotation.
+             @Bean
+             public Person person(@Qualifier("parrot2") Parrot parrot) {            // @Qualifier example
+                 Person p = new Person();
+                 p.setName("Ella");
+                 p.setParrot(parrot);
+                 return p;
+             }
+
+
+========================================================================================================================
+Chapter 4. The Spring context: Using abstractions
+
+    In this chapter, we discuss using abstraction with Spring
+    beans. This topic is essential because in real-world projects,
+    we often use abstractions to decouple implementations. As
+    you’ll learn in this chapter, we ensure our application is
+    comfortable to maintain and test by decoupling
+    implementations
+
+    4.1 Using interfaces to define contracts
+        In Java, the interface is an abstract structure you
+        use to declare a specific responsibility. An object
+        implementing the interface has to define this responsibility.
+        More objects implementing the same interface can define
+        the responsibility declared by that interface in different
+        ways. We can say that the interface specifies the “what
+        needs to happen,” while every object implementing the
+        interface specifies the “how it should happen.”
+
+        4.1.1 Using interfaces for decoupling implementations
+
+        4.1.2 The requirement of the scenario
+            Say you are implementing an app a team uses to manage
+            their tasks. One of the app’s features is allowing the users to
+            leave comments for the tasks. When a user publishes a
+            comment, it is stored somewhere (e.g., in a database), and
+            the app sends an email to a specific address configured in
+            the app.
+            We need to design the objects and find the right
+            responsibilities and abstractions for implementing this
+            feature.
+
+        4.1.3 Implementing the requirement without using a framework
+!!!!!       First, we need to identify the objects (responsibilities) to implement.
+            In standard real-world applications, we usually refer to the
+            objects implementing uses cases as services, and that’s
+            what we’ll do here. We’ll need a service that implements the
+            “publish comment” use case. Let’s name this object
+            CommentService. I prefer to give the service classes a
+            name that ends with “service” so that their role in the
+            project stands out.
+
+            When analyzing the requirement again, we observe that the
+            use case consists of two actions: storing the comment and
+            sending the comment by mail. As they are quite different
+            from one another, we consider these actions to be two
+            different responsibilities, and thus we need to implement
+            two different objects.
+
+!!!         When we have an object working directly with a database,
+            we generally name such an object repository. Sometimes
+            you also find such objects referred to as data access objects
+            (DAO). Let’s name the object that implements the storing
+            comment responsibility CommentRepository.
+
+!!!         Finally, in a real-world app, when implementing objects
+            whose responsibility is to establish communication with
+            something outside the app, we name these objects proxies,
+            so let’s name the object whose responsibility is sending the
+            email CommentNotificationProxy.
+
+            But wait! Didn’t we say we shouldn’t use direct coupling
+            between implementations? We need to make sure we
+            decouple the implementations by using interfaces. In the
+            end, the CommentRepository might now use a database
+            to store the comments. But in the future, maybe this needs
+            to be changed to use some other technology or an external
+            service. We can say the same for the
+            CommentNotificationProxy object. Now it sends the
+            notification by email, but maybe in a future version the
+            comment notification needs to be sent through some other
+            channel.
+            We certainly want to make sure we decouple the
+            CommentService from the implementations of its
+            dependencies so that when we need to change the
+            dependencies, we don’t need to change the object using
+            them as well.
+
+            The CommentService object depends on the
+            abstractions provided by CommentRepository and
+            CommentNotificationProxy interfaces. The classes
+            DBCommentRepository and EmailCommentNotificationProxy further
+            implement these interfaces. This design decouples the
+            implementation of the “publish comment” use case from its
+                Dan: there is a diagram in the book called "Figure 4.6"
+
+    4.2 Using dependency injection with abstractions
+        In this section, we apply the Spring framework over the
+        class design we implemented in section 4.1. Using this
+        example, we can discuss how Spring manages dependency
+        injection when using abstractions. This subject is essential
+        because in most projects, you’ll implement dependencies
+        between objects using abstractions
+
+        4.2.1 Deciding which objects should be part of the Spring context
+!!!!!!      Observe that the two interfaces in figure 4.8 remain white
+            (we don’t mark them with @Component). I often see
+            students confused about where they should use the
+            stereotype annotations when they also use interfaces in their
+            implementations. We use stereotype annotations for the
+            classes that Spring needs to create instances and add these
+            instances to its context. It doesn’t make sense to add
+            stereotype annotations on interfaces or abstract classes
+            because these cannot be instantiated. Syntactically, you can
+            do this, but it is not useful.
+
+            As we discussed in chapter 2, because we have only one
+            constructor in the class, the @Autowired annotation is optional.
+
+            It’s a small example, and it might not look like Spring
+            improves a lot the experience, but look again. By using the
+            DI feature, we don’t create the instance of the
+            CommentService object and its dependencies ourselves,
+            and we don’t need to explicitly make the relationship
+            between them. In a real-world scenario, where you have
+            more than three classes, letting Spring manage the objects
+            and dependencies among them really makes a difference.
+
+        4.2.2 Choosing what to auto-wire from multiple implementations of an abstraction
+            Thus far, we have focused on Spring’s behavior when using
+            DI with abstractions. But we used an example in which we
+            made sure to add only one instance for each kind of
+            abstraction we requested for injection.
+
+!!!!        Suppose we have two beans created with two different
+            classes that implement the CommentNotificationProxy
+            interface (figure 4.9). Fortunately for us, Spring uses a
+            mechanism for deciding which bean to choose that we
+            discussed in chapter 3. In chapter 3, you learned that if
+            more than one bean of the same type exists in the Spring
+            context, you need to tell Spring which of these beans to
+            inject. You also learned the following approaches:
+                - Using the @Primary annotation to mark one of the beans for implementation as the default
+                - Using the @Qualifier annotation to name a bean and then refer to it by its name for DI
+
+            The first solution is using @Primary. The only thing you
+            need to do is add @Primary near the @Component
+            annotation to mark the implementation provided by this
+            class as the default for implementation
+
+!!          The question I usually hear at this moment is, “Now we have
+            two implementations, but Spring will always inject only one
+            of them? Why have both classes in this case?”
+            Let’s discuss how you can get into such a situation in a realworld scenario. As you are already aware,
+            apps are complex and use plenty of dependencies. It’s possible that, at some
+            point, you use a dependency that provides an
+            implementation for a specific interface (figure 4.10), but the
+            provided implementation is not suitable for your app, and
+            you choose to define your custom implementation. Then
+            @Primary is your simplest solution
+
+            NAMING IMPLEMENTATION FOR DEPENDENCY INJECTION WITH @QUALIFIER
+            Sometimes, in production apps, you need to define more
+            implementations of the same interface, and different objects
+            use these implementations. Imagine we need to have two
+            implementations for comment notification: by email or by
+            push notification (figure 4.11). These are still
+            implementations of the same interface, but they depend on
+            different objects in the app.
+
+    4.3 Focusing on object responsibilities with stereotype annotations
+!!!     Thus far, when discussing stereotype annotations, we have
+        only used @Component in our examples. But with real-world
+        implementations, you’ll find out that developers sometimes
+        use other annotations for the same purpose. In this section,
+        I’ll show you how to use two more stereotype annotations:
+        @Service and @Repository
+
+        Using @Component is generic and gives you no
+        detail about the responsibility of the object you’re
+        implementing. But developers generally use objects with
+        some known responsibilities
+
+
+========================================================================================================================
+Chapter 5. The Spring context: Bean scopes and life cycle
+
+    Spring has multiple different approaches for creating beans
+    and managing their life cycle, and in the Spring world we
+    name these approaches scopes. In this chapter, we discuss
+    two scopes you’ll often find in Spring apps: singleton and
+    prototype.
+
+    NOTE Later, in chapter 9, we discuss three more bean scopes that apply to web
+    applications: request, session, and application.
+
+    5.1 Using the singleton bean scope
+        The singleton bean scope defines Spring’s default approach
+        for managing the beans in its context. It is also the bean
+        scope you’ll most encounter in production apps.
+
+        5.1.1 How singleton beans work
+!!!!!       Spring creates a singleton bean when it loads the context
+            and assigns the bean a name (sometimes also referred to as
+            bean ID). We name this scope singleton because you always
+            get the same instance when you refer to a specific bean. But
+            be careful! You can have more instances of the same type in
+            the Spring context if they have different names. I highlight
+            this aspect because you might be aware of and have
+            possibly used the “singleton” design pattern in the past
+!!!!        But if you know what singleton pattern is, the way it works
+            in Spring might look strange to you because you have only
+            one instance of a type in the app. For Spring, the singleton
+            concept allows multiple instances of the same type, and
+            singleton means unique per name but not unique per app.
+
+        5.1.2 Singleton beans in real-world scenarios
+!!!!!!      Because the singleton bean scope assumes that multiple
+            components of the app can share an object instance, the
+            most important thing to consider is that these beans must
+            be immutable. Most often, a real-world app executes actions
+            on multiple threads (e.g., any web app). In such a scenario,
+            multiple threads share the same object instance. If these
+            threads change the instance, you encounter a race-condition scenario
+
+                Dan: see "5-5 singleton race condition"
+
+            If you want mutable singleton beans (whose attributes
+            change), you need to make these beans concurrent by
+            yourself (mainly by employing thread synchronization). But
+            singleton beans aren’t designed to be synchronized. They’re
+            commonly used to define an app’s backbone class design
+            and delegate responsibilities one to another. Technically,
+            synchronization is possible, but it’s not a good practice.
+            Synchronizing the thread on a concurrent instance can
+            dramatically affect the app’s performance. In most cases,
+            you will find other means to solve the same problem and
+            avoid thread concurrency.
+
+!!!!!       Do you remember our discussion in chapter 3, where I told
+            you that constructor DI is a good practice and preferred over
+            field injection? One of the advantages of constructor
+            injection is that it allows you to make the instance
+            immutable (define the bean’s fields as final).
+
+            Using beans boils down to three points:
+                -Make an object bean in the Spring context only if you need Spring to manage it
+                so that the framework can augment that bean with a specific capability. If the
+                object doesn’t need any capability offered by the framework, you don’t need to
+                make it a bean.
+                -If you need to make an object bean in the Spring context, it should be singleton
+                only if it’s immutable. Avoid designing mutable singleton beans.
+                -If a bean needs to be mutable, an option could be to use the prototype scope,
+                which we discuss in section 5.2.
+
+        5.1.3 Using eager and lazy instantiation
+            In most cases, Spring creates all singleton beans when it
+            initializes the context—this is Spring’s default behavior.
+            We’ve used only this default behavior, which is also called
+            eager instantiation. In this section, we discuss a different
+            approach of the framework, lazy instantiation, and compare
+            these two approaches. With lazy instantiation, Spring
+            doesn’t create the singleton instances when it creates the
+            context. Instead, it creates each instance the first time
+            someone refers to the bean.
+
+!!!!!       by adding the @Lazy annotation above the class (for stereotype
+            annotations approach) or above the @Bean method (for the
+            @Bean method approach). You’ll observe the output no
+            longer appears in the console when running the app because
+            we instructed Spring to create the bean only when someone
+            uses it
+
+!!!!!       When should you use eager instantiation and when should
+            you use lazy? In most cases, it’s more comfortable to let the
+            framework create all the instances at the beginning when
+            the context is instantiated (eager); this way, when one
+            instance delegates to another, the second bean already
+            exists in any situation.
+            In a lazy instantiation, the framework has to first check if
+            the instance exists and eventually create it if it doesn’t, so
+            from the performance point of view, it’s better to have the
+            instances in the context already (eager) because it spares
+            some checks the framework needs to do when one bean
+            delegates to another. Another advantage of eager
+            instantiation is when something is wrong and the framework
+            cannot create a bean; we can observe this issue when
+            starting the app
+
+            But lazy instantiation is not all evil. Some time ago, I worked
+            on a vast monolithic application. This app was installed in
+            different locations where it was used in various scopes by its
+            clients. In most cases, a specific client didn’t use a big part
+            of the functionality, so instantiating the beans together with
+            the Spring context unnecessarily occupied a lot of memory.
+            For that app, the developers designed most of the beans to
+            be lazily instantiated so that the app would create only the
+            necessary instances.
+
+    5.2 Using the prototype bean scope
+        Every time you request a reference to a prototype-scoped bean, Spring
+        creates a new object instance. For prototype beans, Spring
+        doesn’t create and manage an object instance directly. The
+        framework manages the object’s type and creates a new
+        instance every time someone requests a reference to the bean.
+
+!!!     we need to use a new annotation named @Scope to change the bean’s scope.
+            @Scope(BeanDefinition.SCOPE_PROTOTYPE)
+
+        With prototype beans, we no longer have concurrency
+        problems because each thread that requests the bean gets a
+        different instance, so defining mutable prototype beans is
+        not a problem
+
+        5.2.2 Prototype beans in real-world scenarios
+            You won’t find prototype beans as often as you’ll find
+            singleton beans. But there is a good pattern you can use to
+            decide if a bean should be prototype. Remember that
+            singleton beans are not quite good friends with mutating
+            objects. Say you design an object named
+            CommentProcessor that processes the comments and
+            validates them. A service uses the CommentProcessor
+            object to implement a use case. But the
+            CommentProcessor object stores the comment to be
+            processed as an attribute, and its methods change this
+            attribute
+
+            The CommentProcessor object is not even a bean in the
+            Spring context. Does it need to be a bean? It’s critical you
+            ask yourself this question before deciding to make any
+            object a bean. Remember that an object needs to be a bean
+            in the context only if Spring needs to manage it to augment
+            the object with some capability the framework offers. If we
+            leave our scenario like this, the CommentProcessor object
+            doesn’t need to be a bean at all.
+            But let’s suppose further that the CommentProcessor bean
+            needs to use an object CommentRepository to persist
+            some data, and CommentRepository is a bean in the
+            Spring context
+
+            In this scenario, the CommentProcessor bean needs to
+            become a bean to benefit from the DI capability Spring
+            offers. In general, in any case where we want Spring to
+            augment the object with a specific capability, it needs to be
+            a bean.
+
+!!!!        You can now get an instance of CommentProcessor from
+            the Spring context. But be careful! You need this instance for
+            every call of the sendComment() method, so the request to
+            the bean should be inside the method itself. To achieve such
+            a result, you can directly inject the Spring context
+            (ApplicationContext) into the CommentService bean
+            using @Autowired. In the sendComment() method, you
+            retrieve the CommentProcessor instance using
+            getBean() from the application context.
+            Don’t make the mistake of injecting the
+            CommentProcessor directly in the CommentService
+            bean. The CommentService bean is a singleton, which
+            means that Spring creates only an instance of this class. As
+            a consequence, Spring will also inject the dependencies of
+            this class just once when it creates the CommentService
+            bean itself. In this case, you’ll end up with only an instance
+            of the CommentProcessor. Each call of the
+            sendComment() method will use this unique instance, so
+            with multiple threads you’ll run into the same race condition
+            issues as with a singleton bean
+
+            I conclude this section by giving you my opinion about using
+            prototype beans. I generally prefer to avoid using them, and
+            mutable instances in general, in the apps I develop
+
+
+========================================================================================================================
+Chapter 6. Using aspects with Spring AOP
+
+    In this chapter, you’ll learn how to use another powerful technique supported by the IoC
+    principle: aspects.
+
+    Aspects are a way the framework intercepts method calls
+    and possibly alters the execution of methods. You can affect
+    the execution of specific method calls you select. This
+    technique helps you extract part of the logic belonging to the
+    executing method. In certain scenarios, decoupling a part of
+    the code helps make that method easier to understand
+    (figure 6.1). It allows the developer to focus only on the
+    relevant details discussed when reading the method logic
+
+    If you don’t use aspects carefully, you
+    might end up with a less maintainable app, which is quite
+    the opposite of what you want to achieve. This approach is
+    called aspect-oriented programming (AOP).
+
+    Sometimes it’s not relevant to have parts of the code
+    in the same place with the business logic because it makes the
+    app more difficult to understand. A solution is to move part of
+    the code aside from the business logic implementation using
+    aspects.
+
+!!! Another important reason for learning aspects is that Spring
+    uses them in implementing a lot of the crucial capabilities it
+    offers. Understanding how the framework works can save
+    you many hours of debugging later when you face a specific
+    problem. A pertinent example of Spring capability that uses
+    aspects is transactionality, which we’ll discuss in chapter 13.
+    Transactionality is one of the main capabilities most apps
+    use today to keep the persisted data’s consistency. Another
+    important capability relying on aspects is security
+    configurations, which help your app protect its data and
+    make sure data cannot be seen or changed by unwanted
+    individuals. To properly understand what happens in apps
+    using these functionalities, you first need to learn aspects.
+
+    6.1 How aspects work in Spring
+        An aspect is simply a piece of logic the framework executes
+        when you call specific methods of your choice. When
+        designing an aspect, you define the following:
+            - What code you want Spring to execute when you call
+            specific methods. This is named an aspect.
+            - When the app should execute this logic of the aspect
+            (e.g., before or after the method call, instead of the
+            method call). This is named the advice.
+            - Which methods the framework needs to intercept and
+            execute the aspect for them. This is named a pointcut.
+
+!!!!    As in the case of the dependency injection, to use aspects
+        you need the framework to manage the objects for which
+        you want to apply aspects. You’ll use the approaches you
+        learned in chapter 2 to add beans to the Spring context to
+        enable the framework to control them and apply aspects you
+        define. The bean that declares the method intercepted by an
+        aspect is named the target object
+            Dan: see "6-2 general idea of aspects"
+
+!!!     But because you made the object an aspect target, Spring won’t
+        directly give you an instance reference for the bean when
+        you request it from the context. Instead, Spring gives you
+        an object that calls the aspect logic instead of the actual
+        method. We say that Spring gives you a proxy object instead
+        of the real bean. You will now receive the proxy instead of
+        the bean anytime you get the bean from the context, either
+        if you directly use the getBean() method of the context or
+        if you use DI (figure 6.3). This approach is named weaving.
+
+    6.2 Implementing aspects with Spring AOP
+        Some new regulations
+        require your app to store the time it started and ended for
+        each use case execution. In your team, you decided to take
+        responsibility for implementing a functionality to log all the
+        events where a use case begins and ends.
+        we’ll use an aspect to solve this scenario in
+        the simplest way possible
+
+        6.2.1 Implementing a simple aspect
+            In addition to the spring-context dependency, for this
+            example we also need the spring-aspects dependency.
+
+!!!!!       To create an aspect, you follow these steps (figure 6.5):
+                1. Enable the aspect mechanism in your Spring app by
+                annotating the configuration class with the
+                @EnableAspectJAutoProxy annotation.
+                2. Create a new class, and annotate it with the @Aspect
+                annotation. Using either @Bean or stereotype
+                annotations, add a bean for this class in the Spring
+                context. (Using @Aspect, you tell Spring that the class implements
+                          the definition of an aspect, but Spring won’t also create a
+                          bean for this class)
+                3. Define a method that will implement the aspect logic and
+                tell Spring when and which methods to intercept using
+                an advice annotation.
+                4. Implement the aspect logic.
+
+            The peculiar expression used as
+            a parameter to the @Around annotation tells Spring which
+            method calls to intercept. Don’t be intimidated by this
+            expression! This expression language is called AspectJ
+            pointcut language, and you won’t need to learn it by heart to
+            use it. In practice, you don’t use complex expressions. When
+            I need to write such an expression, I always refer to the
+            documentation
+
+!!!!        The method proceed() of the ProceedingJoinPoint
+            parameter calls the intercepted method,
+            publishComment(), of the CommentService bean. If you
+            don’t call proceed(), the aspect never delegates further to
+            the intercepted method
+!!!!        You can even implement logic where the actual method isn’t
+            called anymore. For example, an aspect that applies some
+            authorization rules decides whether to delegate further to a
+            method the app protects. If the authorization rules aren’t
+            fulfilled, the aspect doesn’t delegate to the intercepted
+            method it protects
+
+        6.2.2 Altering the intercepted method’s parameters and the returned value
+            Suppose you want to log the parameters used to call the
+            service method and what the method returned.
+
+!!!         But aspects are even more powerful. They can alter the
+            execution of the intercepted method by:
+            - Changing the value of the parameters sent to the method
+            - Changing the returned value received by the caller
+            - Throwing an exception to the caller or catching and
+            treating an exception thrown by the intercepted method
+
+!!!         Be careful with using
+            aspects! You should only use them to hide irrelevant lines of code that can easily be implied.
+            Aspects are so powerful they can bring you to the “dark side” of hiding relevant code and
+            make your app more difficult to maintain. Use aspects with caution!
+
+        6.2.3 Intercepting annotated methods
+            Annotations are comfortable to use, and since
+            they appeared with Java 5, they became the de facto
+            approach in configuring apps that use specific frameworks.
+            There’s probably no Java framework today that doesn’t use
+            annotations. You can also use them to mark the methods
+            you want an aspect to intercept with a comfortable syntax
+            that allows you also to avoid writing complex AspectJ
+            pointcut expressions.
+
+            you find the declaration of the
+            custom annotation. The definition of the retention policy with
+            @Retention(RetentionPolicy.RUNTIME) is critical. By
+            default, in Java annotations cannot be intercepted at
+            runtime. You need to explicitly specify that someone can
+            intercept annotations by setting the retention policy to
+            RUNTIME
+
+    6.3 The aspect execution chain
+        In a real-world app, a
+        method is often intercepted by more than one aspect. For
+        example, we have a method for which we want to log the
+        execution and apply some security constraints. We often
+        have aspects taking care of such responsibilities, so we have
+        two aspects acting on the same method’s execution in this
+        scenario. There’s nothing wrong with having as many
+        aspects as we need, but when this happens, we need to ask
+        ourselves the following questions:
+        In which order does Spring execute these aspects?
+        Does the execution order matter?
+
+!!!!    By default, Spring doesn’t guarantee the order in which two aspects in
+        the same execution chain are called. If the execution order
+        is not relevant, then you just need to define the aspects and
+        leave the framework to execute them in whatever order. If
+        you need to define the aspects’ execution order, you can use
+        the @Order annotation. This annotation receives an ordinal
+        (a number) representing the order in the execution chain for
+        a specific aspect. The smaller the number, the earlier that
+        aspect executes. If two values are the same, the order of
+        execution is again not defined
+
+
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+PART 2 Implementation
+
+
+========================================================================================================================
+Chapter 7. Understanding Spring Boot and Spring MVC
+
+    7.1 What is a web app?
+        Any app you access through your web browser is a web app.
+
+        7.1.1 A general overview of a web app
+            First, a web app is composed of two parts:
+                - The client side is what the user directly interacts with. A
+                web browser represents the client side of a web app. The
+                browser sends requests to a web server, receives
+                responses from it, and provides a way for the user to
+                interact with the app. We also refer to the client side of a
+                web app as the frontend.
+                - The server side receives requests from the client and
+                sends back data in response. The server side
+                implements logic that processes and sometimes stores
+                the client requested data before sending a response. We
+                also refer to the server side of a web app as the backend.
+
+        7.1.2 Different fashions of implementing a web app with Spring
+!!!         We classify the approaches of creating a web app as the following:
+                1. Apps where the backend provides the fully prepared
+                view in response to a client’s request. The browser
+                directly interprets the data received from the backend
+                and displays this information to the user in these apps.
+                2. Apps using frontend-backend separation. For these apps,
+                the backend only serves raw data. The browser doesn’t
+                display the data in the backend’s response directly. The
+                browser runs a separate frontend app that gets the
+                backend responses, processes the data, and instructs
+                the browser what to display.
+
+            Sometimes developers refer to the frontend-backend
+            separation approach as being a modern approach.
+            Different teams take the responsibility of implementing the back- and
+            frontend, allowing more developers to collaborate to develop
+            the apps. Also, the deployment of the front- and the
+            backend can be independently managed. For a larger app,
+            this flexibility is also a nice benefit.
+
+            The other approach that doesn’t use frontend-backend
+            separation is mostly for small apps
+
+        7.1.3 Using a servlet container in web app development
+            But does that mean your app needs to know how to process
+            the HTTP messages? Well, you can implement this capability
+            if you wish, but unless you want to have some fun writing
+            low-level functionalities, you’ll use a component already
+            designed to understand HTTP.
+
+            In fact, what you need is not only something that
+            understands HTTP, but something that can translate the
+            HTTP request and response to a Java app. This something is
+            a servlet container (sometimes referred to as a web server):
+            a translator of the HTTP messages for your Java app. This
+            way, your Java app doesn’t need to take care of
+            implementing the communication layer. One of the most
+            appreciated servlet container implementations is Tomcat,
+            which is also the dependency we’ll use for the examples in
+            this book.
+                Dan: see "7-4 servlet container"
+
+            A servlet container (e.g., Tomcat) speaks HTTP. It
+            translates the HTTP request to our Spring app and the app’s
+            response into an HTTP response. This way, we don’t need to
+            care about the protocol used for communication on the network,
+            as we simply write everything as Java objects and methods
+
+!!!!!!      But if this is everything a servlet container does, why name
+            it “servlet” container? What is a servlet? A servlet is nothing
+            more than a Java object that directly interacts with the
+            servlet container. When the servlet container gets an HTTP
+            request, it calls a servlet object’s method and provides the
+            request as a parameter. The same method also gets a
+            parameter representing the HTTP response used by the
+            servlet to set the response sent back to the client that made
+            the request.
+
+            Dan: "7-7 servlet container requested path"
+
+            As you’ll learn in this chapter, we don’t typically create
+            servlet instances. We’ll use a servlet with the Spring apps we
+            develop with Spring, but you won’t need to write this
+            yourself, so you don’t have to focus on learning to
+            implement servlets. But you do need to remember the
+            servlet is the entry point to your app’s logic. It’s the
+            component the servlet container (Tomcat, in our case)
+            directly interacts with. It’s how the request data enters your
+            app and how the response goes through Tomcat back to the
+            client
+
+    7.2 The magic of Spring Boot
+!!!!    To create a Spring web app, we need to configure a servlet
+        container, create a servlet instance, and then make sure we
+        correctly configure this servlet instance such that Tomcat
+        calls it for any client request. What a headache to write so
+        many configurations! Many years ago, when I was teaching
+        Spring 3 (the latest Spring version at that time) and we
+        configured web apps, this was the part both the students
+        and I hated the most. Fortunately, times changed, and today
+        I don’t have to bother you by teaching such configurations.
+
+!!      Spring Boot is now one of the most appreciated projects in the Spring ecosystem. It
+        helps you create Spring apps more efficiently and focus on
+        the business code you write by eliminating a huge part of
+        the code you used to write for configurations. Especially in a
+        world of service-oriented architectures (SOA) and
+        microservices, where you create apps more often, avoiding the pain of writing configurations is
+        helpful.
+
+        Listed here are what I consider the most critical Spring Boot features, and what they offer:
+            - Simplified project creation—You can use a project
+            initialization service to get an empty but configured
+            skeleton app.
+            - Dependency starters—Spring Boot groups certain
+            dependencies used for a specific purpose with
+            dependency starters. You don’t need to figure out all the
+            must-have dependencies you need to add to your project
+            for one particular purpose nor which versions you should
+            use for compatibility.
+            - Autoconfiguration based on dependencies—Based on the
+            dependencies you added to your project, Spring Boot
+            defines some default configurations. Instead of writing
+            all the configurations yourself, you only need to change
+            the ones provided by Spring Boot that don’t match what
+            you need. Changing the configs likely requires less code
+            (if any).
+
+        But if your IDE doesn’t support direct integration with a Spring
+        Boot project initialization service, you can use this feature by
+        accessing http://start.spring.io directly in your browser.
+
+        In this example, we only need to add a
+        dependency named Spring Web. This dependency adds
+        everything our project needs to become a Spring web app.
+
+!!!     But at some point you’ll undoubtedly want to understand how Spring Boot apps work
+        in detail, and for this I recommend you read Craig Walls’s
+        Spring Boot in Action (Manning, 2015) and Mark Heckler’s
+        Spring Boot: Up and Running O’Reilly Media, 2021).
+
+        Second, we look at the pom.xml file. If you open your
+        project’s pom.xml file, you’ll find that the project
+        initialization service also added some details here. One of
+        the most important details you’ll find is the Spring Boot
+        parent node
+        One of the essential things this parent does is provide you
+        with compatible versions for the dependencies you’ll add to
+        your project.
+
+        For all the examples we have written, we also specified a
+        version for each dependency. The reason you don’t specify
+        one now is to let Spring Boot choose the right one for you.     (the version comes from the parent pom)
+
+        Dependency starters save you plenty of time, and
+        they’re an invaluable feature Spring Boot offers.
+
+!!!!!!  Say you want to add web capabilities to your app. In the
+        past, to configure a Spring web app you had to add all the
+        needed dependencies to your pom.xml file yourself and
+        make sure their versions were compatible one with the
+        other. Configuring all the dependencies you need is not an
+        easy job. Taking care of the version compatibility is even
+        more complicated.
+!!!!!!  With dependency starters, we don’t request dependencies
+        directly. We request capabilities (figure 7.14). You add a
+        dependency starter for a particular capability you need, say
+        web functionalities, a database, or security. Spring Boot
+        makes sure to add the right dependencies to your app with
+        the proper compatible version for your requested capability.
+        We can say that dependency starters are capability-oriented
+        groups of compatible dependencies.
+
+        Look at your pom.xml file. You only added the spring-boot-starter-web dependency, no Spring context,
+        no AOP, no Tomcat! But, if you look in the “External Libraries” folder of
+        your app, you’ll find JAR archives for all these. Spring Boot
+        knew you would need them and downloaded them with
+        specific versions it knows are compatible.
+
+    7.3 Implementing a web app with Spring MVC
+        To add a web page to your app, you follow two steps :
+            1. Write an HTML document with the content you want to
+            be displayed by the browser.
+            2. Write a controller with an action for the web page
+            created at point 1
+
+!!!     You need to add the file in the “resources/static” folder of your Maven project. This folder is
+        the default place where the Spring Boot app expects to find
+        the pages to render.
+
+        The second step you take is writing a controller with a
+        method that links the HTTP request to the page you want
+        your app to provide in response. The controller is a
+        component of the web app that contains methods (often
+        named actions) executed for a specific HTTP request. In the
+        end, the controller’s action returns a reference to the web
+        page the app returns in response. We’ll keep our first
+        example simple, and we won’t make the controller execute
+        any specific logic for the request for now.
+
+        To mark a class as a controller, you only need to use the
+        @Controller annotation, a stereotype annotation (like
+        @Component and @Service, discussed in chapter 4). This
+        means that Spring will also add a bean of this class to its
+        context to manage it. Inside this class, you can define
+        controller actions, which are methods associated with
+        specific HTTP requests.
+
+        Say you want the browser to display this page’s content
+        when the user accesses the /home path. To achieve this
+        result, you annotate the action method with the
+        @RequestMapping annotation specifying the path as a
+        value of the annotation: @RequestMapping("/home").
+        The method needs to return, as a string, the name of the
+        document you want the app to send as a response.
+
+!!!!!   you need to know how Spring manages the request and calls this
+        controller action we implemented. Correctly understanding
+        the framework’s way of managing the web request is a
+        valuable skill that will help you later learn the details faster
+        and implement any feature you need in a web app.
+
+!!!!!!  Dan: see "7-18 spring MVC architecture"
+            1. The client makes an HTTP request.
+            2. Tomcat gets the client’s HTTP request. Tomcat has to call
+            a servlet component for the HTTP request. In the case of
+            Spring MVC, Tomcat calls a servlet Spring Boot
+            configured. We name this servlet dispatcher servlet.
+            3. The dispatcher servlet is the entry point of the Spring
+            web app. (It’s that servlet we discussed in figure 7.8
+            earlier in this chapter; it’s also in figure 7.18.) Tomcat
+            calls the dispatcher servlet for any HTTP request it gets.
+            Its responsibility is to manage the request further inside
+            the Spring app. It has to find what controller action to
+            call for the request and what to send back in response to
+            the client. This servlet is also referred to as a “front
+            controller.”
+            4. The first thing the dispatcher servlet needs to do is find
+            a controller action to call for the request. To find out
+            which controller action to call, the dispatcher servlet
+            delegates to a component named handler mapping. The
+            handler mapping finds the controller action you
+            associated with the request with the @RequestMapping
+            annotation.
+            5. After finding out which controller action to call, the
+            dispatcher servlet calls that specific controller action. If
+            the handler mapping couldn’t find any action associated
+            with the request, the app responds to the client with an
+            HTTP “404 Not Found” status. The controller returns the
+            page name it needs to render for the response to the
+            dispatcher servlet. We refer to this HTML page also as
+            “the view.”
+            6. At this moment, the dispatcher servlet needs to find the
+            view with the name received from the controller to get
+            its content and send it as response. The dispatcher
+            servlet delegates the responsibility of getting the view
+            content to a component named “View Resolver.”
+            7. The dispatcher servlet returns the rendered view in the
+            HTTP response.
+
+!!!!!!! “Don’t rush into learning details before properly
+        understanding the basics” is a rule of thumb I use when
+        learning any technology.
+
+
+========================================================================================================================
+Chapter 8 Implementing web apps with Spring Boot and Spring MVC
+
+    We start with implementing pages whose content changes
+    according to how your app processes the data for specific
+    requests. Today we rarely see static pages on websites
+
+!!! we’ll implement dynamic views using
+    template engines. A template engine is a dependency that
+    allows you to easily get and display variable data the
+    controller sends. We’ll demonstrate how the template engine
+    works in an example after reviewing the Spring MVC flow.
+
+    8.1 Implementing web apps with a dynamic view
+        Dan: see "8-3 MVC with dynamic content"
+
+        Number 4 is where we need to make a change. We want the
+        controller not only to return the view name but somehow
+        also send data to the view. The view will incorporate this
+        data to define the HTTP response. This way, if the server
+        sends a list of one product, and the page displays the list,
+        the page will display one product. If the controller sends two
+        products for the same view, now the displayed data will be
+        different because the page will show two products
+
+        We’ll use a template engine named Thymeleaf. The template
+        engine is a dependency that allows us to easily send data
+        from the controller to the view and display this data in a
+        specific way.
+        I chose Thymeleaf because it’s less complex
+        than others, and I find it easier to understand and learn.
+
+        <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        This parameter of type Model stores the data we want the
+        controller to send to the view. In this Model instance, we
+        add the values we want to send to the view and identify
+        each of them with a unique name (also referred to as key).
+
+!!!!!   To define the view, you need to add a new “home.html” file
+        to your Spring Boot project’s “resources/templates” folder.
+        Be attentive to the small difference: in chapter 7, we added
+        the HTML file in the “resources/static” folder because we
+        created a static view. Now that we’re using a template
+        engine to create a dynamic view, you need to add the HTML
+        file to the “resources/templates” folder instead.
+
+!!!!    The first important thing to notice in the file’s
+        content is the <html> tag where I added the attribute
+        xmlns:th="http://www.thymeleaf.org". This
+        definition is equivalent to an import in Java. It allows us
+        further to use the prefix “th” to refer to specific features
+        provided by Thymeleaf in the view
+
+        A little bit further in the view, you find two places where I
+        used this “th” prefix to refer to the controller’s data to the
+        view. With the ${attribute_key} syntax, you refer to
+        any of the attributes you send from the controller using the
+        Model instance. For example, I used the ${username} to
+        get the value of the “username” attribute and ${color} to
+        get the value of the “color” attribute.
+
+        8.1.1 Getting data on the HTTP request
+!!!!!!      In most cases, to send data through the HTTP request you
+            use one of the following ways:
+                - An HTTP request parameter represents a simple way to
+                send values from client to server in a key-value(s) pair
+                format. To send HTTP request parameters, you append
+                them to the URI in a request query expression. They are
+                also called query parameters. You should use this
+                approach only for sending a small quantity of data.
+                - An HTTP request header is similar to the request
+                parameters in that the request headers are sent through
+                the HTTP header. The big difference is that they don’t
+                appear in the URI, but you still cannot send large
+                quantities of data using HTTP headers.
+                - A path variable sends data through the request path
+                itself. It is the same as for the request parameter
+                approach: you use a path variable to send a small
+                quantity of data. But we should use path variables when
+                the value you send is mandatory.
+                - The HTTP request body is mainly used to send a larger
+                quantity of data (formatted as a string, but sometimes
+                even binary data such as a file). We’ll discuss this
+                approach in chapter 10, where you’ll learn to implement
+                REST endpoints.
+
+        8.1.2 Using request parameters to send data from client to server
+!!!!!       You use request parameters in the following scenarios:
+                - The quantity of data you send is not large. You set the
+                request parameters using query variables (as shown in
+                this section’s example). This approach limits you to
+                about 2,000 characters.
+                - You need to send optional data. A request parameter is a
+                clean way to deal with a value the client might not send.
+                The server can expect to not get a value for specific
+                request parameters.
+
+            An often-encountered use case for request parameters used
+            is defining some search and filtering criteria
+
+!!!!        To get the value from a request parameter, you need to add one more parameter to the
+            controller’s action method and annotate that parameter with
+            the @RequestParam annotation. The @RequestParam
+            annotation tells Spring it needs to get the value from the
+            HTTP request parameter with the same name as the
+            method’s parameter name
+
+!!!!!       When setting HTTP request parameters, you extend the path
+            with a ? symbol followed by pairs of key=value parameters
+            separated by the & symbol. For example, if I want to also
+            send the name as a request parameter, I write:
+            http://localhost:8080/home?color=blue&name=Jane
+
+!!!!        NOTE A request parameter is mandatory by default. If the client doesn’t provide a value for
+            it, the server sends back a response with the status HTTP “400 Bad Request.” If you wish
+            the value to be optional, you need to explicitly specify this on the annotation using the
+            optional attribute: @RequestParam(optional=true).
+
+        8.1.3 Using path variables to send data from client to server
+            But instead of using the HTTP
+            request parameters, you directly set variable values in the
+            path, as presented in the next snippets.
+
+            Using request parameters:
+                http://localhost:8080/home?color=blue
+            Using path variables:
+                http://localhost:8080/home/blue
+
+!!!         I prefer using request parameters for
+            more than two values instead of path variables,
+            Also, you shouldn’t use path
+            variables for optional values. I recommend you use path
+            variables only for mandatory parameters.
+
+            To reference a path variable in the controller’s action, you
+            simply give it a name and add it to the path between curly
+            braces, as presented in the following listing. You then use
+            the @PathVariable annotation to mark the controller’s
+            action parameter to get the path variable’s value.
+
+                 @RequestMapping("/home/{color}") ❶
+                 public String home( @PathVariable String color, ❷    Model page) {
+                    page.addAttribute("username", "Katy");
+                    page.addAttribute("color", color);
+                    return "home.html";
+                 }
+
+    8.2 Using the GET and POST HTTP methods
+        A path and a verb identify an HTTP request. Thus far we have only
+        referred to the path, and, without noticing, we used the
+        HTTP GET method. Its purpose is to define what action the
+        client requests. For example, by using GET, we represent an
+        action that only retrieves data. It’s a way for the client to
+        say it wants to obtain something from the server, but the call
+        won’t change data. But you’ll need more than this. An app
+        also needs to change, add, or delete data.
+
+        We’ve relied on the request path to reach a specific action of
+        the controller, but in a more complex scenario you can
+        assign the same path to multiple actions of the controller as
+        long as you use different HTTP methods.
+
+        For apps, you’ll often find developers using @GetMapping to map a GET
+        request to an action, @PostMapping for a request using
+        HTTP POST, and so on. We’ll also change our example to use
+        these dedicated annotations for HTTP methods
+
+!!!!    Because the request parameters’ names are the same as the
+        Product class attributes’ names, Spring knows to match
+        them and automatically creates the object. For someone
+        who already knows Spring, this is excellent because it spares
+        you from writing code lines. But beginners might get
+        confused by all these details. Say you find an example in an
+        article that uses this syntax. It might be unclear where the
+        Product instance comes from. If you’ve just begun learning
+        Spring and find yourself in such a situation, my advice is to
+        be aware that Spring tends to have plenty of syntaxes to
+        hide as much code as possible. Whenever you find a syntax
+        you don’t clearly understand in an example or article, try
+        finding the framework specification details.
+
+    Alternatives to Thymeleaf are Mustache, FreeMarker, and
+    Java Server Pages (JSP).
+
+
+========================================================================================================================
+Chapter 9. Using the Spring web scope
+
+!!  In any Spring app, you can choose to declare a bean as one
+    of the following:
+        - Singleton — The default bean scope in Spring, for which
+        the framework uniquely identifies each instance with a
+        name in the context
+        - Prototype — The bean scope in Spring, for which the
+        framework only manages the type and creates a new
+        instance of that class every time someone requests it
+        (directly from the context or through wiring or autowiring).
+
+!!!!!In this chapter, you’ll learn that in web apps you can use
+    other bean scopes that are relevant only to web applications.
+    We call them web scopes:
+        - Request scope — Spring creates an instance of the bean
+        class for every HTTP request. The instance exists only
+        for that specific HTTP request.
+        - Session scope — Spring creates an instance and keeps the
+        instance in the server’s memory for the full HTTP
+        session. Spring links the instance in the context with the
+        client’s session.
+        - Application scope — The instance is unique in the app’s
+        context, and it’s available while the app is running.
+
+    In section 9.1, we’ll use a request-scoped bean to take the
+    user’s credentials for login and make sure the app uses them
+    only for the login request. Then, in section 9.2, we’ll use a
+    session-scoped bean to store all the relevant details we need
+    to keep for the logged-in user as long as the user remains
+    logged in. In section 9.3, we’ll use the application-scoped
+    bean to add a capability to count logins.
+        Dan: so basically for each of these functionalities, you would need one of the 3 different web scopes (
+            obviously you would use Spring Security in production...these are just examples)
+                see "9-1 web scope in an example.png"
+
+    9.1 Using the request scope in a Spring web app
+!!!!    A request-scoped bean is an object managed by Spring, for
+        which the framework creates a new instance for every HTTP
+        request. The app can use the instance only for the request
+        that created it. Any new HTTP request (from the same or
+        other clients) creates and uses a different instance of the
+        same class
+
+        We’ll implement a web application’s login
+        functionality, and we’ll use a request-scoped bean to
+        manage the user’s credentials for the login logic.
+
+!!!!!   Spring creates a lot of instances of this bean in the app’s memory
+        during its execution.
+        The number of instances is usually not a big problem because these
+        instances are short-lived.
+        The app doesn’t need them for more than the time the HTTP request needs to complete.
+        However, make sure you don’t implement a time consuming logic. Spring needs to
+        execute to create the instance (like getting data from a database or
+        implementing a network call). Avoid writing logic in the constructor or a
+        @PostConstruct method for requestscoped beans.
+
+        we have to take into consideration two things about
+        these credentials:
+        1. The credentials are sensitive details, and you don’t want
+        to store them in the app’s memory for longer than the
+        login request.
+        2. More users with different credentials might attempt to
+        log in simultaneously.
+        Considering these two points, we need to make sure that if
+        we use a bean for implementing the login logic, each
+        instance is unique for each HTTP request. We need to use a
+        request-scoped bean
+
+        We add a request-scoped bean
+        LoginProcessor, which takes the credentials on the
+        request and validates them
+            @Component
+            @RequestScope
+            public class LoginProcessor {
+                 private String username;
+                 private String password;
+                 public boolean login() {
+                     String username = this.getUsername();
+                     String password = this.getPassword();
+                     if ("natalie".equals(username) && "password".equals(password)) {
+                        return true;
+                     } else {
+                        return false;
+                     }
+                 }
+                 // omitted getters and setters
+            }
+
+        We use the @RequestScope annotation to change the bean’s scope to request scope.
+        This way, Spring creates a new instance of the class for every HTTP request.
+
+    9.2 Using the session scope in a Spring web app
+        When you
+        enter a web app and log in, you expect to then surf through
+        that app’s pages, and the app still remembers you’ve logged
+        in. A session-scoped bean is an object managed by Spring,
+        for which Spring creates an instance and links it to the HTTP
+        session. Once a client sends a request to the server, the
+        server reserves a place in the memory for this request, for
+        the whole duration of their session. Spring creates an
+        instance of a session-scoped bean when the HTTP session is
+        created for a specific client. That instance can be reused for
+        the same client while it still has the HTTP session active. The
+        data you store in the session-scoped bean attribute is
+        available for all the client’s requests throughout an HTTP
+        session. This approach of storing the data allows you to
+        store information about what users do while they’re surfing
+        through the pages of your app
+
+        A couple of features you can implement using session scoped beans include the following examples:
+            - A login — Keeps details of the authenticated user while
+            they visit different parts of your app and send multiple requests
+            - An online shopping cart—Users visit multiple places in
+            your app, searching for products they add to the cart.
+            The cart remembers all the products the client added.
+
+!!!!!   Avoid keeping too much data on the session. It can potentially become a
+        performance problem. Moreover, never store sensitive details (like
+        passwords, private keys, or any other secret detail) in session bean
+        attributes.
+
+!!!!!   When keeping details stateful in one app’s memory, you make clients
+        dependent on that specific app instance. Before deciding to
+        implement some feature with a session-scoped bean, consider
+        alternatives, such as storing the data you want to share in a
+        database instead of the session. This way, you can leave
+        the HTTP requests independent one from another.
+
+            @Service
+            @SessionScope
+            public class LoggedUserManagementService {
+                private String username;
+            }
+
+            @Component
+            @RequestScope
+            public class LoginProcessor {
+             private final LoggedUserManagementService loggedUserManagementService;
+             private String username;
+             private String password;
+             public LoginProcessor(LoggedUserManagementService loggedUserManagementService) {
+                this.loggedUserManagementService = loggedUserManagementService;
+             }
+             public boolean login() {
+                 String username = this.getUsername();
+                 String password = this.getPassword();
+                 boolean loginResult = false;
+                 if ("natalie".equals(username) && "password".equals(password)) {
+                    loginResult = true;
+                    loggedUserManagementService.setUsername(username);
+                 }
+                 return loginResult;
+             }
+             // Omitted getters and setters
+            }
+
+        You don’t have to worry about the case where multiple users are logged in; the
+        application framework makes sure to link each HTTP request
+        to the correct session.
+
+    9.3 Using the application scope in a Spring web app
+        In this section, we discuss the application scope. I want to
+        mention its existence, make you aware of how it works, and
+        emphasize that it’s better not to use it in a production app.
+
+        The application scope is close to how a singleton works. The
+        difference is that you can’t have more instances of the same
+        type in the context and that we always use the HTTP
+        requests as a reference point when discussing the life cycle
+        of web scopes (including the application scope). We face the
+        same concurrency problems we discussed in chapter 5 for
+        the singleton beans for application-scoped beans: it’s better
+        to have immutable attributes for the singleton beans. The
+        same advice is applicable to an application-scoped bean. But
+        if you make the attributes immutable, then you can directly
+        use a singleton bean instead.
+
+!!!!!   Generally, I recommend developers avoid using application scoped beans. It’s better to directly use a
+        persistence layer, such as a database
+        With application-scoped bean instances
+        being shared by all the web app requests, any write
+        operation usually needs synchronization, creating
+        bottlenecks and dramatically affecting the app’s
+        performance. Moreover, these beans live in your app’s
+        memory as long as the app itself, so they can’t be
+        garbage-collected
+
+
+========================================================================================================================
+Chapter 10. Implementing REST services
+
+    REST services are one of the most often encountered ways
+    to implement communication between two apps. REST offers
+    access to functionality the server exposes through endpoints
+    a client can call.
+
+    You use REST services to establish the communication
+    between a client and a server in a web app. But you can also
+    use REST services to develop the communication between a
+    mobile app and a backend or even two backend services
+
+    10.1 Using REST services to exchange data between apps
+        REST endpoints are as simple as
+        implementing a controller action mapped to an HTTP method
+        and a path. An app calls this controller action through HTTP.
+
+        Because it’s how an app exposes a service through a web
+        protocol, we call this endpoint a web service.
+
+!!!!!   The only difference is that for REST services
+        we’ll tell the Spring MVC dispatcher servlet not to look for a
+        view. In the Spring MVC diagram you learned in chapter 7,
+        the view resolver disappears. The server sends back, in the
+        HTTP response to the client, directly what the controller’s
+        action returns
+
+            Dan: see "10-2 REST changes versus Spring MVC.png"
+
+!!!!    I’d like to make you aware of some communication issues the REST endpoint
+        might bring:
+        - If the controller’s action takes a long time to complete,
+        the HTTP call to the endpoint might time out and break
+        the communication.
+        - Sending a large quantity of data in one call (through the
+        HTTP request) might cause the call to time out and
+        break the communication. Sending more than a few
+        megabytes through a REST call usually isn’t the right
+        choice.
+        - Too many concurrent calls on an endpoint exposed by a
+        backend component might put too much pressure on the
+        app and cause it to fail.
+        - The network supports the HTTP calls, and the network is
+        never 100% reliable. There’s always a chance a REST
+        endpoint call might fail because of the network.
+
+!!!!    When you implement the communication between two apps
+        using REST, you always need to consider what should
+        happen if a call fails and how it might affect the app. Ask
+        yourself if the data could be affected in any way. Could the
+        way you designed your app lead to data inconsistencies if an
+        endpoint call fails? In case the app needs to display an error
+        to the user, how would you do that?
+
+    10.2 Implementing a REST endpoint
+        The @ResponseBody annotation tells the dispatcher servlet
+        that the controller’s action doesn’t return a view name but
+        the data sent directly in the HTTP response.
+
+            @Controller
+            public class HelloController {
+                @GetMapping("/hello")
+                @ResponseBody
+                public String hello() {
+                    return "Hello!";
+                }
+            }
+
+!!!!!   We want to somehow prevent repeating the @ResponseBody
+        annotation for each method. To help us with this aspect,
+        Spring offers the @RestController annotation, a
+        combination of @Controller and @ResponseBody. You
+        use @RestController to instruct Spring that all the
+        controller’s actions are REST endpoints. This way, you avoid
+        repeating the @ResponseBody annotation.
+
+        you’ll learn to call your endpoints using two tools you’ll often
+        encounter in real-world scenarios:
+            - Postman — Offers a nice GUI and is comfortable to use
+            - cURL — A command-line tool useful in cases where you
+                don’t have a GUI (e.g., when you connect to a virtual
+                machine via SSH or when you write a batch script)
+                Both these tools are a must-learn for any developer.
+
+    10.3 Managing the HTTP response
+
+        10.3.1 Sending objects as a response body
+!!!!!       The only thing you need to do to send an
+            object to the client in a response is make the controller’s
+            action return that object.
+
+!!!         By default, Spring creates a string representation of the object and formats it
+            as JSON. JavaScript Object Notation (JSON) is a simple way
+            to format strings as attribute-value pairs.
+
+            You could also send object collection instances in the
+            response body. The next listing shows that we added a
+            method that returns a List of Country objects.
+
+        10.3.2 Setting the response status and headers
+            By default, Spring sets some common HTTP statuses:
+                200 OK if no exception was thrown on the server side while processing the request.
+                404 Not Found if the requested resource doesn’t exist.
+                400 Bad Request if a part of the request could not be
+                matched with the way the server expected the data.
+                500 Error on server if an exception was thrown on the
+                server side for any reason while processing the request.
+                Usually, for this kind of exception, the client can’t do
+                anything, and it’s expected someone should solve the
+                problem on the backend.
+
+!!!!!       However, in some cases, the requirements ask you to
+            configure a custom status. How could you do that? The
+            easiest and most common way to customize the HTTP
+            response is using the ResponseEntity class. This class
+            provided by Spring allows you to specify the response body,
+            status, and headers on the HTTP response
+
+                @GetMapping("/france")
+                public ResponseEntity<Country> france() {
+                     Country c = Country.of("France", 67);
+                     return ResponseEntity
+                     .status(HttpStatus.ACCEPTED)
+                     .header("continent", "Europe")
+                     .header("capital", "Paris")
+                     .header("favorite_food", "cheese and wine")
+                     .body(c);
+
+        10.3.3 Managing exceptions at the endpoint level
+            One of the ways you can manage exceptions is catching
+            them in the controller’s action and using the
+            ResponseEntity class, as you learned in section 10.3.2,
+            to send a different configuration of the response when the
+            exception occurs.
+
+!!!         I prefer using a REST controller advice, an aspect
+            that intercepts exceptions thrown by controllers’ actions and
+            applies custom logic you define according to the intercepted
+            exception.
+
+            The ExceptionControllerAdvice class is a REST controller
+            advice. To mark it as a REST controller advice, we use the
+            @RestControllerAdvice annotation. The method the
+            class defines is also called an exception handler. You specify
+            what exceptions trigger a controller advice method using the
+            @ExceptionHandler annotation over the method
+
+                @RestControllerAdvice
+                public class ExceptionControllerAdvice {
+                     @ExceptionHandler(NotEnoughMoneyException.class)
+                     public ResponseEntity<ErrorDetails> exceptionNotEnoughMoneyHandler() {
+                        ErrorDetails errorDetails = new ErrorDetails();
+                        errorDetails.setMessage("Not enough money to make the payment.");
+                        return ResponseEntity
+                                .badRequest()
+                                .body(errorDetails);
+                     }
+                }
+
+    10.4 Using a request body to get data from the client
+        Because REST endpoints rely on the same
+        Spring MVC mechanism, nothing from the syntaxes you
+        learned in chapter 8 changes regarding sending data in
+        request parameters and path variables. You can use the
+        same annotations and implement the REST endpoints
+        identically as you were implementing the controller actions
+        for your web pages.
+
+        To use the request body, you just need to annotate a
+        parameter of the controller’s action with @RequestBody. By
+        default, Spring assumes you used JSON to represent the
+        parameter you annotated and will try to decode the JSON
+        string into an instance of your parameter type. In the case
+        Spring cannot decode the JSON-formatted string into that
+        type, the app sends back a response with the status “400
+        Bad Request.”
+            @PostMapping("/payment")
+             public ResponseEntity<PaymentDetails> makePayment(@RequestBody PaymentDetails paymentDetails) {
+             logger.info("Received payment " + paymentDetails.getAmount());
+             return ResponseEntity
+                     .status(HttpStatus.ACCEPTED)
+                     .body(paymentDetails);
+             }}
+
+
+========================================================================================================================
+Chapter 11. Consuming REST endpoints
+
+    Often, a backend app needs to act as a client for
+    another backend app, and calls exposed REST endpoints to
+    work with specific data.
+
+!!!!!!!!
+    In this chapter, you’ll learn three ways to call REST endpoints from a Spring app:
+        1. OpenFeign—A tool offered by the Spring Cloud project.
+            I recommend developers use this feature in new apps for consuming REST endpoints.
+        2. RestTemplate—A well-known tool developers have
+            used since Spring 3 to call REST endpoints.
+            RestTemplate is often used today in Spring apps.
+            However, as we’ll discuss in this chapter, OpenFeign is
+            a better alternative to RestTemplate, so if you work
+            on a new app, you’ll probably avoid RestTemplate and
+            use OpenFeign instead.
+        3. WebClient—A Spring feature presented as an
+            alternative to RestTemplate. This feature uses a
+            different programming approach named reactive
+            programming, which we’ll discuss at the end of this
+            chapter.
+
+!!! RestTemplate has been put in maintenance mode starting
+    with Spring 5, and it will eventually be deprecated. Why am
+    I teaching you about it, then? Most of today’s Spring
+    projects use RestTemplate to call REST endpoints because
+    they started when this was the only or the best solution for
+    implementing such a capability. For some of these apps,
+    RestTemplate’s capabilities are enough and work fine, so
+    replacing them makes no sense. Sometimes the time needed
+    to replace RestTemplate with a newer solution might be
+    too costly, so learning it is still a must for a Spring
+    developer
+
+    11.1 Calling REST endpoints using Spring Cloud OpenFeign
+        I prefer to begin this chapter by discussing the alternative to RestTemplate
+        I recommend you use: OpenFeign.
+!!!!!   With OpenFeign, as you’ll find out in the example we write
+        in this section, you only need to write an interface, and the
+        tool provides you with the implementation.
+
+!!!!!   We’ll define an interface where we declare the methods that
+        consume REST endpoints. The only thing we need to do is
+        annotate these methods to define the path, the HTTP
+        method, and eventually parameters, headers, and the body
+        of the request. The interesting thing is that we don’t need to
+        implement the methods ourselves. You define with the
+        interface methods based on the annotations, and Spring
+        knows to implement them. We rely again on the excellent
+        magic of Spring.
+            Dan: see "11-5 OpenFeign example"
+
+!!!     <dependency>
+         <groupId>org.springframework.cloud</groupId>
+         <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+!!!     Once you have the dependency in place, you can create the
+        proxy interface (as presented in figure 11.5). In OpenFeign
+        terminology, we also name this interface the OpenFeign
+        client. OpenFeign implements this interface, so you don’t
+        have to bother writing the code that calls the endpoint. You
+        only need to use a few annotations to tell OpenFeign how
+        to send the request. The following listing shows you how
+        simple the definition of the request is with OpenFeign.
+
+            @FeignClient(name = "payments", url = "${name.service.url}")
+            public interface PaymentsProxy {
+                 @PostMapping("/payment")
+                 Payment createPayment(@RequestHeader String requestId, @RequestBody Payment payment);
+            }
+
+!!!!    The first thing to do is annotate the interface with the
+        @FeignClient annotation to tell OpenFeign it has to
+        provide an implementation for this contract. We have to
+        assign a name to the proxy using the name attribute of the
+        @FeignClient annotation, which OpenFeign internally
+        uses. The name uniquely identifies the client in your app.
+        The @FeignClient annotation is also where we specify the
+        base URI of the request. You can define the base URI as a
+        string using the url attribute of @FeignClient.
+
+!!!!    You can define a property in the project’s
+        “application.properties” file and refer it from the source code
+        using the following syntax: ${property_name}. Using this
+        practice, you don’t need to recompile the code when you
+        want to run the app in different environments.
+
+        Each method you declare in the interface represents a REST
+        endpoint call. You use the same annotations you learned in
+        chapter 10 for the controller’s actions to expose REST
+        endpoints:
+            To specify the path and HTTP method: @GetMapping, @PostMapping, @PutMapping, and so on
+            To specify a request header: @RequestHeader
+            To specify the request body: @RequestBody
+
+!!!!!   OpenFeign needs to know where to find the interfaces
+        defining the client contracts. We use the
+        @EnableFeignClients annotation on a configuration
+        class to enable the OpenFeign functionality and tell
+        OpenFeign where to search for the client contracts. In the
+        following listing, you find the project’s configuration class
+        where we enable the OpenFeign clients.
+            @Configuration
+            @EnableFeignClients(basePackages = "com.example.proxy")
+            public class ProjectConfig {
+            }
+
+        You can now inject the OpenFeign client through the
+        interface you defined in listing 11.2. Once you enable
+        OpenFeign, it knows to implement the interfaces annotated
+        with @FeignClient. In chapter 5, we discussed that Spring
+        is smart enough to provide you with a bean instance from its
+        context when you use an abstraction, and this is exactly
+        what you do here.
+
+    11.2 Calling REST endpoints using RestTemplate
+        I don’t want you to conclude that RestTemplate has any
+        problems. It is being put to sleep not because it’s not
+        working properly or because it’s not a good tool. But as apps
+        evolved, we started to need more capabilities. Developers
+        wanted to be able to benefit from different things that aren’t
+        easy to implement with RestTemplate, such as the
+        following:
+            - Calling the endpoints both synchronously and asynchronously
+            - Writing less code and treating fewer exceptions (eliminate boilerplate code)
+            - Retrying call executions and implementing fallback
+            operations (logic performed when the app can’t execute
+            a specific REST call for any reason)
+
+        Dan: see "11-6 RestTemplate example.png"
+
+    11.3 Calling REST endpoints using WebClient
+        WebClient is a tool used in different apps and is
+        built on a methodology we call a reactive approach. The
+        reactive methodology is an advanced approach, and I
+        recommend studying it once you know the basics well. A
+        good starting point is reading chapters 12 and 13 of Spring
+        in Action, 6th ed., by Craig Walls (Manning, 2021).
+
+!!!!    Spring’s documentation recommends using WebClient, but
+        that’s only a valid recommendation for reactive apps. If you
+        aren’t writing a reactive app, use OpenFeign instead.
+
+        In a nonreactive app, a thread executes a business flow.
+        Multiple tasks compose a business flow, but these tasks are
+        not independent. The same thread executes all the tasks
+        composing a flow. Let’s take an example to observe where
+        this approach might face issues and how we can enhance it
+
+        A functionality scenario for demonstrating the
+        usefulness of a reactive approach. A banking app needs to call
+        several other apps to calculate the total debt of a user. Due to
+        these calls, the thread executing the request is blocked several
+        times while waiting for I/O operations to finish.
+
+!!!!!   Reactive apps change the idea of having one atomic flow in
+        which one thread executes all its tasks from the beginning to
+        the end. With reactive apps, we think of tasks as
+        independent, and multiple threads can collaborate to
+        complete a flow composed of multiple tasks.
+
+        Instead of imagining this functionality as steps on a timeline,
+        imagine it as a backlog of tasks and a team of developers
+        solving them. With this analogy, I’ll help you imagine how a
+        reactive app works: the developers are threads, and the
+        tasks in the backlog are the steps of a functionality.
+        Two developers can implement two different tasks
+        simultaneously if they don’t depend on one another. If a
+        developer gets stuck on a task because of an external
+        dependency, they can leave it temporarily and work on
+        something else.
+
+        Using this approach, you don’t need one thread per each
+        request. You can solve multiple requests with fewer threads
+        because the threads don’t have to stay idle. When blocked
+        on a certain task, the thread leaves it and works on some
+        other task that isn’t blocked
+
+!!!!!   The reactive app specification offers us two components: the
+        producer and the subscriber to implement the dependencies
+        between tasks.
+        A task returns a producer to allow other tasks to subscribe
+        to it, marking the dependency they have on the task. A task
+        uses a subscriber to attach to a producer of another task
+        and consume that task’s result once it ends.
+
+        Dan: see "11-10 reactive app example.png"
+
+        Because WebClient imposes a reactive approach, we need
+        to add a dependency named WebFlux instead of the
+        standard web dependency
+
+        <dependency>
+         <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+
+        To call the REST endpoint, you need to use a WebClient
+        instance. The best way to create easy access is to put it in
+        the Spring context using the @Bean annotation with a
+        configuration class method, as you learned in chapter 2.
+
+            @Configuration
+            public class ProjectConfig {
+             @Bean
+             public WebClient webClient() {
+                return WebClient
+                        .builder()
+                        .build();
+             }
+            }
+
+        Below is the relevant method from the proxy class that makes the call to a service using the webclient
+             public Mono<Payment> createPayment(String requestId, Payment payment) {
+                 return webClient.post()
+                     .uri(url + "/payment")
+                     .header("requestId", requestId)
+                     .body(Mono.just(payment), Payment.class)
+                     .retrieve()
+                     .bodyToMono(Payment.class);
+             }
+
+!!!!!   In our demonstration, we use a class named Mono. This
+        class defines a producer. In method from above, you find this case,
+        where the method performing the call doesn’t get the input
+        directly. Instead, we send a Mono. This way, we can create
+        an independent task that provides the request body value.
+        The WebClient subscribed to this task becomes dependent
+        on it.
+
+!!!     The method also doesn’t return a value directly. Instead, it
+        returns a Mono, allowing another functionality to subscribe
+        to it. This way, the app builds the flow, not by chaining them
+        on a thread, but by linking the dependencies between tasks
+        through producers and consumers
+
+        Controller that calls the service looks something like this:
+             @PostMapping("/payment")
+             public Mono<Payment> createPayment(@RequestBody Payment payment ) {
+                String requestId = UUID.randomUUID().toString();
+                return paymentsProxy.createPayment(requestId, payment);
+             }
+
+
+========================================================================================================================
+Chapter 12 Using data sources in Spring apps
+
+    In this chapter, we discuss what a data source is and the
+    most straightforward way to make your Spring app work
+    with a database. That straightforward way is the
+    JdbcTemplate tool that Spring offers.
+
+    12.1 What a data source is
+!!!!   The data source is a component that manages
+       connections to the database management systems (DBMS). The
+       data source uses the JDBC driver to get the connections it
+       manages. The data source aims to improve the app’s
+       performance by allowing its logic to reuse connections to the
+       DBMS and request new connections only when it needs them.
+       The data source also makes sure to close the connections when
+       it releases them.
+
+       Dan see "12-2 data source.png"
+
+!!!     Without an object taking the responsibility of a data source,
+        the app would need to request a new connection for each
+        operation with the data. This approach is not realistic in a
+        production scenario because communicating through the
+        network for establishing a new connection for each operation
+        would dramatically slow down the application and cause
+        performance issues. The data source makes sure your app
+        only requests a new connection when it really needs it,
+        improving the app’s performance.
+
+        In a Java app, the language’s capabilities to connect to a
+        relational database is named Java Database Connectivity
+        (JDBC). JDBC offers you a way to connect to a DBMS to
+        work with a database. However, the JDK doesn’t provide a
+        specific implementation for working with a particular
+        technology (such as MySQL, Postgres, or Oracle). The JDK
+        only gives you the abstractions for objects an app needs to
+        work with a relational database. To gain the implementation
+        of this abstraction and enable your app to connect to a
+        certain DBMS technology, you add a runtime dependency
+        named the JDBC driver (figure 12.3). Every technology
+        vendor provides the JDBC driver you need to add to your
+        app to enable it to connect to that specific technology
+!!!!    The JDBC driver is not something that comes either from the JDK
+        or from a framework such as Spring.
+
+        Dan: see "12-3 JDBC driver"
+
+        You’ll often find this approach in Java fundamentals tutorials.
+        When you learn JDBC in a Java fundamentals tutorial, the
+        examples generally use a class named DriverManager to
+        get a connection, as presented in the following code snippet:
+        Connection con = DriverManager.getConnection(url, username, password);
+        The getConnection() method uses the URL provided as a
+        value for the first parameter to identify the database your
+        app needs to access and the username and password to
+        authenticate the access to the database (figure 12.4). But
+        requesting a new connection and authenticating each
+        operation again and again for each is a waste of resources
+        and time for both the client and the database server
+
+!!!!    A data source object can efficiently manage the connections
+        to minimize the number of unnecessary operations. Instead
+        of using the JDBC driver manager directly, we use a data
+        source to retrieve and manage the connections
+
+        Dan: see "12-5 Data source and driver manager"
+
+!!!!!!  For Java apps, you have multiple choices for data source
+        implementations, but the most commonly used today is the
+        HikariCP (Hikari connection pool) data source. The
+        convention configuration of Spring Boot also considers
+        HikariCP the default data source implementation too, and
+        this is what we’ll use in the examples.
+
+    12.2 Using JdbcTemplate to work with persisted data
+        Using JDBC classes provided by the JDK has not
+        proven to be a comfortable way to work with persisted data.
+        You have to write verbose blocks of code even for the
+        simplest operations.
+
+            String sql = "INSERT INTO purchase VALUES (?,?)";
+            try (PreparedStatement stmt = con.prepareStatement(sql)) {
+             stmt.setString(1, name);
+             stmt.setDouble(2, price);
+             stmt.executeUpdate();
+            } catch (SQLException e) {
+             // do something when an exception occurs
+            }
+
+        Such a lengthy block of code for a simple operation of
+        adding a new record to a table! And consider that I skipped
+        the logic in the catch block. But Spring helps us minimize
+        the code we write for such operations. With Spring apps, we
+        can use various alternatives to implement the persistence
+        layer
+
+!!!!!!  JdbcTemplate is the simplest of the tools Spring offers for
+        using a relational database, but it’s an excellent choice for
+        small apps as it doesn’t force you to use any other specific
+        persistence framework. JdbcTemplate is the best Spring
+        choice to implement a persistence layer when you don’t
+        want your app to have any other dependency. I also consider
+        it an excellent way to start learning how to implement the
+        persistence layer of Spring apps.
+
+        In this book, we’ll use
+        H2 (an in-memory database, excellent for examples, and, as
+        you’ll find in chapter 15, for implementing integration tests)
+        and MySQL (a free and light technology you can easily install
+        locally to prove the examples work with something other
+        than an in-memory database). You can choose to implement
+        the examples with some other relational database
+        technology you prefer, like Postgres, Oracle, or MS SQL.
+
+!!      Your app uses a JDBC driver for the H2 database as well. But for H2, you don’t
+        have to add it separately because it comes with the H2 database dependency you added in
+        the pom.xml file.
+
+        <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+         <groupId>com.h2database</groupId>
+         <artifactId>h2</artifactId>
+         <scope>runtime</scope>
+        </dependency>
+
+!       When working with a database, we implement all the
+        capabilities related to the persistence layer in classes we (by
+        convention) name repositories
+
+!!!     We need to add a table that stores the purchase records. In
+        theoretical examples, it’s easy to create a database structure
+        by adding a file named “schema.sql” to the Maven project’s
+        resources folder
+            Dan: this should be added right next to application.properties
+
+        In this file, you can write all the structural SQL queries you
+        need to define the database structure. You also find
+        developers name these queries “data description language”
+        (DDL)
+
+!!!!!!  Using a “schema.sql” file to define the database structure only works for theoretical
+        examples. This approach is easy because it’s fast and allows you to focus on the things you
+        learn rather than the definition of the database structure in a tutorial. But in a real-world
+        example, you will need to use a dependency that also allows you to version your database
+        scripts. I recommend you look at Flyway (https://flywaydb.org/) and Liquibase
+        (https://www.liquibase.org/). These are two highly appreciated dependencies for database
+        schema versioning. They are beyond Spring basics, so we won’t use them in examples in
+        this book. But it’s one of the things I recommend you learn right after the fundamentals
+
+        Spring provides a focused annotation for repositories we can use: @Repository
+
+!!!     Now that PurchaseRepository is a bean in the
+        application context, we can inject an instance of
+        JdbcTemplate that we’ll use to work with the database. I
+        know what you’re thinking! “Where is this JdbcTemplate
+        instance coming from? Who created this instance so that we
+        can already inject it into our repository?” In this example,
+        like in many production scenarios, we’ll benefit once more
+        from Spring Boot’s magic. When Spring Boot saw you added
+        the H2 dependency in pom.xml, it automatically configured a
+        data source and a JdbcTemplate instance. In this
+        example, we’ll use them directly
+
+!!!     If you use Spring but not Spring Boot, you need to define
+        the DataSource bean and the JdbcTemplate bean (you
+        can add them in the Spring context using the @Bean
+        annotation in the configuration class, as you learned in
+        chapter 2).
+
+        JdbcTemplate has an
+        update() method you can use to execute any query for
+        data mutation: INSERT, UPDATE or DELETE. Pass the SQL
+        and the parameters it needs, and that’s it; let
+        JdbcTemplate take care of the rest (obtaining a
+        connection, creating a statement, treating the
+        SQLException, and so on). The following listing adds a
+        storePurchase() method to the PurchaseRepository
+        class.
+
+            public void storePurchase(Purchase purchase) {
+                 String sql = "INSERT INTO purchase VALUES (NULL, ?, ?)";
+                 jdbc.update(sql,
+                    purchase.getProduct(),
+                    purchase.getPrice()
+                 );
+             }
+
+        For the ID, we use NULL because we configured the DBMS to generate the value
+        for this column
+
+        To retrieve data, this time, you’ll write a SELECT query. And to
+        tell JdbcTemplate how to transform the data into
+        Purchase objects (your model class), you implement a
+        RowMapper: an object responsible for transforming a row
+        from the ResultSet into a specific object. For example, if
+        you want to get the data from the database modeled as
+        Purchase objects, you need to implement a RowMapper to
+        define the way a row is mapped to a Purchase instance
+
+        Dan: see "12-9 how row mapper works"
+
+             public List<Purchase> findAllPurchases() {
+                 String sql = "SELECT * FROM purchase";
+                 RowMapper<Purchase> purchaseRowMapper = (r, i) -> {
+                 Purchase rowObject = new Purchase();
+                 rowObject.setId(r.getInt("id"));
+                 rowObject.setProduct(r.getString("product"));
+                 rowObject.setPrice(r.getBigDecimal("price"));
+                 return rowObject;
+                 };
+                 return jdbc.query(sql, purchaseRowMapper);
+             }
+
+        In the lambda expression, parameter “r” is the ResultSet (the
+        data you get from the database), while parameter “i” is an int representing the row
+        number.
+
+    12.3 Customizing the configuration of the data source
+
+        12.3.1 Defining the data source in the application properties file
+            We follow two simple steps for performing this
+            transformation:
+                1. Change the project dependencies to exclude H2 and add
+                the adequate JDBC driver.
+                2. Add the connection properties for the new database to
+                the “application.properties” file.
+
+!!!!!       For step 2, the “application.properties” file should look like
+            the following code snippet. We add the
+            spring.datasource.url property to define the database
+            location, and the spring.datasource.username and
+            spring.datasource.password properties to define the
+            credentials the app needs to authenticate and get
+            connections from the DBMS. Additionally, we need to use the
+            spring.datasource.initialization-mode property
+            with the value “always” to instruct Spring Boot to use the
+            “schema.sql” file and create the purchase table. You don’t
+            need to use this property with H2. For H2, Spring Boot runs
+            by default the queries in the “schema.sql” file, if this file
+            exists:
+
+            spring.datasource.url=jdbc:mysql://localhost/spring_quickly?
+            useLegacyDatetimeCode=false&serverTimezone=UTC
+            spring.datasource.username=<dbms username>
+            spring.datasource.password=<dbms password>
+            spring.datasource.initialization-mode=always
+
+            Storing secrets (such as passwords) in the properties file is not a good practice in
+            production-ready applications. Such private details are stored in secret vaults. We won’t
+            discuss secret vaults in this book because this subject is way beyond fundamentals. But I
+            want you to be aware that defining the passwords in this way is only for examples and
+            tutorials.
+
+        12.3.2 Using a custom DataSource bean
+            Spring Boot knows how to use a DataSource bean if you
+            provide the connection details in the “application.properties”
+            file. Sometimes this is enough, and as usual, I recommend
+            you go with the simplest solution that solves your problems.
+            But in other cases, you can’t rely on Spring Boot to create
+            your DataSource bean. In such a case, you need to define
+            the bean yourself. Some scenarios in which you need to
+            define the bean yourself are as follows:
+                - You need to use a specific DataSource implementation
+                based on a condition you can only get at runtime.
+                - Your app connects to more than one database, so you
+                have to create multiple data sources and distinguish
+                them using qualifiers.
+                - You have to configure specific parameters of the
+                DataSource object in certain conditions your app has
+                only at runtime. For example, depending on the
+                environment where you start the app, you want to have
+                more or fewer connections in the connection pool for
+                performance optimizations.
+                - Your app uses Spring framework but not Spring Boot.
+
+            Don’t worry! The DataSource is just a bean you add to the
+            Spring context like any other bean. Instead of letting Spring
+            Boot choose the implementation for you and configure the
+            DataSource object, you define a method annotated with
+            @Bean in a configuration class (as you learned in chapter 3)
+            and add the object to the context yourself. This way, you
+            have full control over the object’s creation.
+
+!!!!!       You can create multiple data source objects, each with
+            their own JdbcTemplate object associated if you want
+            your app to connect to multiple databases. In such a
+            scenario, you’d need to use the @Qualifier annotation
+            to distinguish between objects of the same type in the
+            application context (as you learned in chapters 4 and 5).
+
+
+========================================================================================================================
+Chapter 13. Using transactions in Spring apps
+
+    One of the most important things we take into consideration
+    when managing data is to keep accurate data. We don’t
+    want specific execution scenarios to end up with wrong or
+    inconsistent data
+
+    To avoid such scenarios in which data becomes inconsistent,
+    we need to make sure either both steps correctly execute or
+    neither of them do. Transactions offer us the possibility to
+    implement multiple operations that either correctly execute
+    all or none.
+
+    13.1 Transactions
+        In this section, we discuss transactions. A transaction is a
+        defined set of mutable operations (operations that change
+        data) that can either correctly execute them altogether or
+        not at all. We refer to this as atomicity. Transactions are
+        essential in apps because they ensure the data remains
+        consistent if any step of the use case fails when the app
+        already changed data
+
+        The "commit” operation happens when the transaction ends and
+        all the steps are successfully executed, so the app persists
+        the data changes
+
+        If step 1 executes without a problem, but step 2 fails for any
+        reason, the app reverts the changes step 1 made. This
+        operation is named rollback.
+
+    13.2 How transactions work in Spring
+!!!!!   In fact, a Spring AOP aspect lies behind
+        the scenes of a transaction. (We discussed how aspects work in chapter 6.)
+        An aspect is a piece of code that intercepts specific methods’
+        execution in a way that you define. In most cases today, we
+        use annotations to mark the methods whose execution an
+        aspect should intercept and alter. For Spring transactions,
+        things aren’t different. To mark a method we want Spring to
+        wrap in a transaction, we use an annotation named
+        @Transactional.
+
+        Dan: see "13-4 Transactional annotation works.png"
+
+!!!!    Spring knows to rollback a transaction if the method throws
+        a runtime exception. But I’d like to emphasize the word
+        “throws.” When I teach Spring in class, students often
+        understand that it’s enough that some operation inside the
+        transferMoney() method throws a runtime exception.
+        But this is not enough! The transactional method should
+        throw the exception further so that the aspect knows it
+        should rollback the changes. If the method treats the
+        exception in its logic and doesn’t throw the exception
+        further, the aspect can’t know the exception occurred
+
+!!!!!   What about checked exceptions in transactions?
+        Thus far, I’ve only discussed runtime exceptions. But what about the checked
+        exceptions? Checked exceptions in Java are those exceptions you have to treat or
+        throw; otherwise, your app won’t compile. Do they also cause a transaction rollback if a
+        method throws them? By default, no! Spring’s default behavior is only to roll back a
+        transaction when it encounters a runtime exception. This is how you’ll find transactions
+        used in almost all real-world scenarios.
+        When you work with a checked exception, you have to add the “throws” clause in the
+        method signature; otherwise, your code won’t compile, so you always know when your
+        logic could throw such an exception. For this reason, a situation represented with a
+        checked exception is not an issue that could cause data inconsistency, but is instead a
+        controlled scenario that should be managed by the logic the developer implements.
+
+    13.3 Using transactions in Spring apps
+        You use @Transactional to mark a
+        method you want Spring to wrap in a transaction. You don’t
+        need to do anything else. Spring configures an aspect that
+        intercepts the methods you annotate with
+        @Transactional. This aspect starts a transaction and
+        either commits the method’s changes if everything went fine
+        or rolls back the changes if any runtime exception occurred
+
+!!!!!   We also add a “data.sql” file near the “schema.sql” in the
+        resources folder to create two records we’ll use later to test.
+        The “data.sql” file contains SQL queries to add two account
+        records to the database. You find these queries in the
+        following code snippet:
+        INSERT INTO account VALUES (NULL, 'Helen Down', 1000);
+        INSERT INTO account VALUES (NULL, 'Peter Read', 1000);
+
+        Using @Transactional
+!!!!!   The @Transactional annotation can also be applied directly to the class. If used
+        on the class (as presented in the next code snippet), the annotation applies to all the
+        class methods. Often in real-world apps you will find the @Transactional
+        annotation used on the class, because the methods of a service class define use
+        cases and, in general, all the use cases need to be transactional. To avoid repeating
+        the annotation on each method, it’s easier just to mark the class once.
+
+
+========================================================================================================================
+Chapter 14. Implementing data persistence with Spring Data
+
+    In this chapter, you’ll learn to use Spring Data, a Spring
+    ecosystem project that gives you the possibility of
+    implementing a Spring app’s persistence layer with minimum
+    effort. As you already know, an application framework’s
+    essential role is providing out-of-the-box capabilities that
+    you can directly plug into apps. Frameworks help us save
+    time and also make apps’ design easier to understand.
+
+    You’ll learn to create the app’s repositories by declaring
+    interfaces. You’ll let the framework provide implementations
+    for these interfaces. You’ll literally enable your app to work
+    with a database without implementing the repository
+    yourself and with minimum effort.
+
+    14.1 What Spring Data is
+        Dan: see "14-1 Spring data intro.png"
+
+!!!!    The Java ecosystem offers a large number of various
+        persistence technologies. You use each technology in a specific
+        way. Each technology has its own abstractions and class
+        design. Spring Data offers a common abstraction layer over all
+        these persistence technologies to simplify the use of multiple
+        persistence technologies
+
+!!      In an app, you have various technologies you can use to work with
+        persisted data. In chapters 12 and 13, we used JDBC, which
+        directly connects to a relational DBMS through a driver
+        manager. But JDBC isn’t the only approach you can use to
+        connect to a relational database. Another common way to
+        implement data persistence is using an ORM framework,
+        such as Hibernate. And relational databases aren’t the only
+        kind of persisting data technologies. An app might use one
+        of the various NoSQL technologies out there to persist data
+
+        Sometimes apps use frameworks built on top of
+        JDBC, such as Hibernate. The variety in choices makes
+        implementing a persistence layer complex. We want to eliminate
+        this complexity from our apps, and, as you’ll learn, Spring Data
+        helps us do this
+
+!!!!    Spring Data simplifies the implementation of the persistence
+        layer by doing the following:
+            1.Providing a common set of abstractions (interfaces) for
+            various persistence technologies. This way, you use a
+            similar approach for implementing the persistence for
+            different technologies.
+            2.Allowing the user to implement the persistence
+            operations using only the abstractions, for which Spring
+            Data provides the implementations. This way, you write
+            less code, so you more quickly implement the app’s
+            capabilities. With less written code, the app also
+            becomes easier to understand and maintain.
+
+    14.2 How Spring Data works
+!!!!    The Spring Data project offers different modules for one
+        technology or another. These modules are independent of
+        one another, and you can add them to your project using
+        different Maven dependencies. So, when you implement an
+        app, you don’t use the Spring Data dependency. There is no
+        such thing as one Spring Data dependency. The Spring Data
+        project provides one Maven dependency for each persistence
+        fashion it supports. For example, you can use the Spring
+        Data JDBC module to connect to the DMBS directly through
+        JDBC, or use the Spring Data Mongo module to connect to a
+        MongoDB database
+
+!!!!!   Spring Data provides a common set of interfaces (contracts) you
+        extend to define the app’s persistence capabilities.
+            - Repository is the most abstract contract. If you
+            extend this contract, your app recognizes the interface
+            you write as a particular Spring Data repository. Still,
+            you won’t inherit any predefined operations (such as
+            adding a new record, retrieving all the records, or
+            getting a record by its primary key). The Repository
+            interface doesn’t declare any method (it is a marker
+            interface).
+            - CrudRepository is the simplest Spring Data contract
+            that also provides some persistence capabilities. If you
+            extend this contract to define your app’s persistence
+            capabilities, you get the simplest operations for creating,
+            retrieving, updating, and deleting records.
+            - PagingAndSortingRepository extends
+            CrudRepository and adds operations related to
+            sorting the records or retrieving them in chunks of a
+            specific number (pages).
+
+        Dan: see "14-6 Spring Data Interfaces.png"
+
+!!!!!   Don’t confuse the @Repository annotation we discussed in chapter 4 with the
+        Spring Data Repository interface. The @Repository annotation is the stereotype
+        annotation you use with classes to instruct Spring to add an instance of the annotated class
+        to the application context. This Repository interface we discuss in this chapter is specific
+        to Spring Data and, as you’ll learn, you extend it or another interface that extends from it to
+        define a Spring Data repository.
+
+!!!!!   Why not only one interface with all the operations in it? By implementing
+        multiple contracts that extend each other instead of
+        providing you one “fat” contract with all the operations,
+        Spring Data gives your app the possibility to implement only
+        the operations it needs. This approach is a known principle
+        called interface segregation. For example, if your app only
+        needs to use CRUD operations, it extends the
+        CrudRepository contract. Your app won’t get the
+        operations related to sorting and paging records, making
+        your app simpler
+
+!!!!    Some Spring Data modules might provide specific contracts
+        to the technology they represent. For example, using Spring
+        Data JPA, you also can extend the JpaRepository
+        interface directly. The
+        JpaRepository interface is a contract more particular than
+        PagingAndSortingRepository. This contract adds
+        operations applicable only when using specific technologies
+        like Hibernate that implement the Jakarta Persistence API
+        (JPA) specification.
+        MongoRepository interface is present in Spring Data Mongo dependency, and it also has methods
+        corresponding to MongoDB technology.
+            Dan: already used this in my "springmongo" repository
+
+    14.3 Using Spring Data JDBC
+        Dependencies from the example in this chapter are :
+            <dependency>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-web</artifactId>
+            </dependency>
+            <dependency>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-data-jdbc</artifactId>
+            </dependency>
+             <dependency>
+             <groupId>com.h2database</groupId>
+             <artifactId>h2</artifactId>
+             <scope>runtime</scope>
+            </dependency>
+
+        For several operations it provides, such as retrieving data
+        from the database, Spring Data needs to know which field
+        maps the table’s primary key. You use the @Id annotation,
+        to mark the primary key
+
+!!!!!!  We only need CRUD operations for this application, so we’ll write an interface
+        that extends the CrudRepository interface. All the Spring
+        Data interfaces have two generic types you need to provide:
+            1. The model class (sometimes named entity) for which
+            you write the repository
+            2. The primary key field type
+
+!!!!!!! In a realworld app, you need custom operations, which need a
+        written SQL query to be implemented. How do you
+        implement a custom operation in a Spring Data repository?
+        Spring Data makes this aspect so easy that you sometimes
+        don’t even need to write a SQL query. Spring Data knows to
+        interpret the method’s names based on some naming
+        definition rules and creates the SQL query behind the scenes
+        for you. For example, say you want to write an operation to
+        get all the accounts for a given name. In Spring Data, you
+        can write a method with the following name:
+        findAccountsByName.
+
+!!!!    When the method name starts with “find,” Spring Data
+        knows you want to SELECT something. Next, the word
+        “Accounts” tells Spring Data what you want to SELECT.
+        Spring Data is so smart that I could have even named the
+        method findByName. It would still know what to select just
+        because the method is in the AccountRepository
+        interface. In this example, I wanted to be more specific and
+        make the operation name clear. After the “By” in the
+        method’s name, Spring Data expects to get the query’s
+        condition (the WHERE clause). In our case, we want to select
+        “ByName,” so Spring Data translates this to WHERE name = ?.
+
+!!!     Dan: see "14-12 relationship between repository method name and query generated by spring data.png"
+
+!!!!!!  This magic of translating a method’s name into a query looks
+        incredible at first sight. However, with experience you realize
+        it’s not a silver bullet. It has a few disadvantages, so I
+        always recommend developers explicitly specify the query
+        instead of relying on Spring Data to translate the method’s
+        name. The main disadvantages of relying on the method’s
+        name are as follows:
+            - If the operation requires a more complex query, the
+            method’s name would be too large and difficult to read.
+            - If a developer refactors the method’s name by mistake,
+            they might affect the app’s behavior without realizing it
+            (unfortunately, not all apps are roughly tested, and we
+            need to consider this).
+            - Unless you have an IDE that offers you hints while
+            writing the method’s name, you need to learn the Spring
+            Data’s naming rules. Since you already know SQL,
+            learning a set of rules applicable only for Spring Data is
+            not advantageous.
+            - Performance is affected because Spring Data also has to
+            translate the method name into a query, so the app will
+            initialize slower (the app translates the method names
+            into queries when the app boots).
+
+!!!!    The simplest way to avoid these problems is using the
+        @Query annotation to specify the SQL query that the app
+        will run when you call that method. When you annotate the
+        method @Query, it’s no longer relevant how you name that
+        method. Spring Data will use the query you provide instead
+        of translating the method’s name into a query. The behavior
+        also becomes more performant
+
+             @Query("SELECT * FROM account WHERE name = :name")
+             List<Account> findAccountsByName(String name);
+
+!!!!!   You use the @Query annotation in the same way to define
+        any query. However, when your query changes data, you
+        also need to annotate the method with the @Modifying
+        annotation. If you use UPDATE, INSERT, or DELETE, you
+        also need to annotate the method with @Modifying
+
+        Use DI to get a bean that implements the
+        AccountRepository interface wherever you need it in the
+        app. Don’t worry that you only wrote the interface. Spring
+        Data creates a dynamic implementation and adds a bean to
+        your app’s context
+
+
+
+========================================================================================================================
+Chapter 15. Testing your Spring app
+
+    Before diving deep into this chapter, I’d like to make you
+    aware that testing is a complex subject, and we’ll focus only
+    on the essential knowledge you need to have when testing
+    Spring apps. But testing is a subject that deserves its own
+    bookshelf.
+
+    15.1 Writing correctly implemented tests
+        Testability and
+        maintainability are software qualities that help one another.
+        By designing your app to be testable, you also help to make
+        it maintainable.
+
+        For any piece of logic you test, you need to find the
+        relevant test scenarios. For each test scenario, you write a test
+        method in a test class.
+
+    15.2 Implementing tests in Spring apps
+
+        15.2.1 Implementing unit tests
+!!!!!       A unit test is like one of your car’s dashboard indicators. If you try
+            starting your car and it fails to start, it might be because you
+            ran out of gas or your battery isn’t working properly. A car is
+            a complex system (same as an app), and you have no clue
+            what the problem is unless you have an indicator. If the car’s
+            indicator shows you’re out of gas, then you immediately
+            identified the problem!
+
+            To control such a dependency, we use mocks: a
+            fake object whose behavior we can control. In this case,
+            instead of using the real AccountRepository object, we’ll
+            make sure the tested method uses this fake object. We’ll
+            take advantage of controlling how this fake object behaves
+            to induce all the different executions of the
+            transferMoney() method that we want to test.
+
+!!!         In a real-world app, a good practice is using the @DisplayName annotation to
+            describe the test scenario (as you see in the next listing). In our examples, I took out the
+            @DisplayName annotation to save space and allow you focus on the test logic. However,
+            using it in a real-world app can help you, but also other developers on the team, better
+            understand the implemented test scenario..
+
+!!!         When you use the @Mock annotation, the framework creates and
+            injects a mock object in the annotated attribute. With
+            @InjectMocks annotation, you create the object to test
+            and instruct the framework to inject all the mocks (created
+            with @Mock) in its parameters
+
+        15.2.2 Implementing integration tests
+!!!!!!      If you decide not to mock the repository in an integration test, you should use an in memory database
+            such as H2 instead of the real database. This will help you keep your tests
+            independent of the infrastructure that runs the app. Using the real database could cause
+            latencies in test executions and even make tests fail in case of infrastructure or networking
+            problems. Since you test the application and not the infrastructure, you should avoid all this
+            trouble by using a mock in-memory database
+
+            With a Spring app, you’ll generally use integration tests to
+            verify that your app’s behavior correctly interacts with the
+            capabilities Spring provides. We name such a test a “Spring
+            integration test" .
+
+!!!!!       Observe that we can use the @MockBean annotation to create a mock object in our
+            Spring Boot application. This annotation is quite similar to
+            the @Mock annotation we used for unit tests, but it also
+            makes sure the mock object is added to the application
+            context. This way, you can simply use @Autowired (as you
+            learned in chapter 3) to inject the object whose behavior you test.
+
+                 @MockBean
+                 private AccountRepository accountRepository;
+                 @Autowired
+                 private TransferService transferService;
+
+                 @Test
+                 void transferServiceTransferAmountTest() {
+                     Account sender = new Account();
+                     sender.setId(1);
+                     sender.setAmount(new BigDecimal(1000));
+                     Account receiver = new Account();
+                     receiver.setId(2);
+                     receiver.setAmount(new BigDecimal(1000));
+                     when(accountRepository.findById(1L)).thenReturn(Optional.of(sender));
+                     when(accountRepository.findById(2L)).thenReturn(Optional.of(receiver));
+                     transferService.transferMoney(1, 2, new BigDecimal(100));
+                     verify(accountRepository).changeAmount(1, new BigDecimal(900));
+                     verify(accountRepository).changeAmount(2, new BigDecimal(1100));
+                 }
+
+
+========================================================================================================================
+Appendix A. Architectural approaches
+
+    A.1 The monolithic approach
+        When developers refer to an app as being “monolithic” or “a
+        monolith,” it means that it consists of just one component
+        you deploy and execute. This component implements all its
+        functionalities.
+
+        Dan : see "A-3 horizontal scalling.png"
+
+        When you make
+        even a small change in a monolithic app, you need to
+        redeploy everything. At the same time, with a microservices
+        architecture, you benefit from redeploying the service only
+        where you made the change. This simplification is a benefit
+        for the system as well.
+
+    A.2 Using a service-oriented architecture
+        Let’s go back to our case with the app for selling books. We
+        have four main functionalities covered by the app: products,
+        deliveries, billing, and customers. What often happens in
+        real-world apps is that not all features consume the
+        resources equally. Some consume more than others,
+        possibly because they’re more complex or used more often.
+        We cannot decide that only a part of the app should be
+        scaled with a monolithic app. In our case, we either scale all
+        four features or none of them. To manage the resources
+        better, we’d like to scale only the features that really need
+        more resources and avoid scaling the others
+
+        Dan: see "A-4 Why Service oriented architecture .png"
+
+!!!!!!! Some features are more intensively used than others.
+        For this reason, these features consume more resources and
+        need to be scaled.
+        Can we do something to enable us only to scale the products
+        feature but not the others? Yes, we can split the monolith
+        into multiple services. We’ll change the app’s architecture
+        from a monolith to a service-oriented architecture (SOA).
+        Instead of having just one process for all the features in a
+        SOA, we have multiple processes implementing the features.
+
+        let’s discuss the complexities you introduce using a SOA. Here
+        are some domains in which we encounter different issues
+        when using SOAs:
+            1. Communication among the services
+            2. Security
+            3. Data persistence
+            4. Deployment
+
+        Dan: see "A-8 potential Security issues in service oriented architecture .png"
+
+    A.3 From microservices to serverless
+        Microservices are a
+        particular implementation of the SOA. A microservice usually
+        is designed with one responsibility and has its own
+        persistence capability (it doesn’t share databases).
+
+!!!!    The minimization of services went so far that today we can
+        implement a short functionality with only a few lines of code
+        and deploy it in an environment. An event like an HTTP
+        request, a timer, or a message triggers this functionality and
+        makes it execute. We call these small implementations
+        serverless functions. The term “serverless” doesn’t imply
+        that the function doesn’t execute on a server. But because
+        everything regarding the development is hidden and we only
+        case for the code that implements its logic and the events
+        that trigger it, it merely looks like no server exists.
+
+  TODO      Various books on the topic of microservices:
+
+        1. Microservices in Action, by Morgan Bruce and Paulo A.
+        Pereira (Manning, 2018), is an excellent book you can
+        start with when learning microservices. In the book,
+        you’ll find all the microservices fundamentals subjects
+        discussed with useful examples.
+        2. Microservices Patterns, by Chris Richardson (Manning,
+        2018), is a book I recommend you continue with after
+        thoroughly reading Microservices in Action. The author
+        presents a pragmatic approach on how to develop
+        production-ready apps using microservices.
+        3. Spring Microservices in Action, by John Carnell and Illary
+        Huaylupo Sánchez (Manning, 2020), helps you better
+        understand how to apply Spring to build microservices.
+        4. Microservices Security in Action, by Prabath Siriwardena
+        and Nuwan Dias (Manning 2020), goes into detail with
+        what applying security with a microservice architecture
+        means. Security is a crucial aspect of any system, and
+        you always need to consider it from the development
+        process’s early stages. The book explains security from
+        the ground up, and reading it will give you a better
+        understanding the aspects you need to be aware of in
+        regards to security for microservices.
+        5. Monolith to Microservices, by Sam Newman (O’Reilly
+        Media, 2020), treats patterns for transforming a
+        monolithic architecture into microservices. The book also
+        discusses whether you need to use microservices and
+        how to decide this.
+
+
+
+========================================================================================================================
+Appendix C. A quick introduction to HTTP
+
+    Why learn about HTTP in a book about Spring? Because
+    today most of the apps we implement with an application
+    framework (such as Spring) are web apps—and web apps
+    use HTTP.
+
+    In this section, we discuss what HTTP is. I prefer simple
+    definitions, so I describe it as how a client communicates
+    with the server in a web app. Applications prefer to have
+    rigid ways to “speak,” and the protocols offer the rules they
+    need to exchange information.
+
+    Dan : see "C-1 what is HTTP .png"
+
+    HTTP is a protocol that describes how a client and a
+    server talk. HTTP assumes a client makes a request, and the
+    server responds. The protocol describes what the client’s
+    request and the server’s response look like. HTTP is stateless,
+    meaning the requests are independent of one another, and text based, which means the information is exchanged as plain text.
+
+!!!!The HTTP request has a simple format. The things you have
+    to take into consideration are the following:
+        1. The request URI—The client uses the path to tell the
+        server what resource it requests. The request URI looks
+        like this one: http://www.manning.com/books/springstart-here
+        2. The request method—A verb that the client uses to
+        indicate what action it will do with the requested
+        resource. For example, when you write an address in a
+        web browser’s address bar, the browser always uses an
+        HTTP method named GET. In other circumstances, you’ll
+        find in the next paragraphs, the client can issue an HTTP
+        request with a different method such as POST, PUT, or
+        DELETE.
+        3. The request parameters (optional)—Data in small
+        quantity the client sends to the server with the request.
+        When I say “small quantity,” I refer to something that
+        can be expressed in maybe 10 to 50 characters.
+        Parameters on the request aren’t mandatory. The
+        request parameters (also referred to as query
+        parameters) are sent in the URI by appending a query
+        expression.
+        4. The request headers (optional)—Data in small quantity
+        sent in the request header. Unlike request parameters,
+        these values are not visible in the URI.
+        5. The request body (optional)—A larger quantity of data
+        the client sends to the server in the request. When the
+        client needs to send data composed of some hundreds of
+        characters, it can use the HTTP body. A body on the
+        request is not mandatory.
+
+!!!!!A uniform resource identifier (URI) includes a uniform resource locator (URL) and a
+    path. We can say the formula is URI = URL + path. But in many cases, you’ll find people
+    confusing the URI with the URL or considering them to be the same thing. You need to
+    remember that the URL identifies the server and the application. When you add a path to a
+    specific resource of that application, it becomes a URI.
+
+    In response to a client’s request, the server sends
+    the following:
+        - The response status—An integer between 100 and 599
+        that defines a short representation of the request’s result.
+        - Response headers (optional)—Similar to request
+        parameters, they represent key-value pair data. They
+        are designed for sending a small amount of data (10 to
+        50 characters) from server to client in response to a
+        client’s request.
+        - The response body (optional)—A way for the server to
+        send a larger quantity (e.g., the server needs to send
+        some hundreds of characters or entire files) of data back
+        to the client
+
+    C.4 The HTTP session
+        In this section, we discuss the HTTP session, a mechanism
+        that allows a server to store data between multiple request response interactions with the same client. Remember that
+        for HTTP every request is independent of another. In other
+        words, a request doesn’t know anything about other
+        previous, next, or simultaneous requests. A request cannot
+        share data with order requests or access the details the
+        backend responds for them.
+        However, you’ll find scenarios where the server needs to
+        correlate some requests. A good example is the cart
+        functionality of an online shop. A user adds multiple items to
+        their cart. To add an item to the cart, the client makes a
+        request. To add a second item, the client makes another
+        request. The server needs a way to know that the same
+        client previously added an item to the same cart
+
+!!!!    One way to implement such behavior is using the HTTP
+        session. The backend assigns a unique identifier named
+        “session ID” to a client and then associates it with a place in
+        the app’s memory. Each request the client sends after being
+        assigned the session ID needs to contain the session ID in a
+        request header. This way, the backend app knows to
+        associate the specific session requests
+
+        Dan: see "C-4 http session mechanism.png"
+
+!!!!!   The HTTP session usually ends after a time if the client
+        doesn’t send more requests. You can configure this time,
+        usually both in the servlet container and the app. It
+        shouldn’t be more than maybe a few hours. If the session
+        lives too long, the server will spend a lot of memory. For
+        most apps, a session ends after less than one hour if the
+        client doesn’t send more requests.
+
+
+========================================================================================================================
+Appendix G. Recommended learning materials for further study
+
+    Spring in Action, 6th ed., by Craig Walls (Manning,
+    2021). I recommend continuing your reading on Spring
+    with this book. You will start with a refresher on what
+    you learned in Spring Start Here and continue learning
+    a variety of projects that are part of the Spring
+    ecosystem. You’ll find excellent discussions on Spring
+    Security, asynchronous communication, Project Reactor,
+    RSocket, and using Spring Boot’s actuator.
+
+    Spring Security in Action by Laurenţiu Spilcă (Manning,
+    2020). Securing apps is a paramount subject you need
+    to learn right after you finish with the basics. You find a
+    detailed discussion on using Spring Security to protect
+    your app from different kinds of attacks by properly
+    implementing authentication and authorization in this
+    book.
+
+    Spring Boot Up and Running by Mark Heckler (O’Reilly
+    Media, 2021). Spring Boot is one of the most important
+    projects in the Spring ecosystem. Most teams today use
+    Spring Boot to ease the implementation of their Spring
+    apps. This is also why we used Spring Boot in more
+    than half the chapters of this book. Once you finish with
+    the basics, I recommend you to take a deep dive into
+    the details of Spring Boot. I found this book to be an
+    excellent resource for a developer learning Spring.
+
+    Reactive Spring by Josh Long (self-published, 2020). In
+    my projects, using a reactive approach for
+    implementing web apps comes with great advantages.
+    Long discusses these advantages and demonstrates
+    how to properly implement Spring reactive apps in this
+    book. I recommend you read this book after reading
+    Spring in Action by Craig Walls.
+
+
+
+
+TODO There is another TODO in the notes with various  books on the topic of microservices
+    Also see appendix G for books
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
